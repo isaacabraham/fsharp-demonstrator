@@ -11,10 +11,14 @@ Example shown illustrates how to host some self-contained F# business logic asse
 Example shown illustrates how to host the same F# business logic assembly within a Suave application and routing.
 
 ## Azure Hosting
-Several components are provided: -
 
 ### Azure Resource Manager (ARM) Template
-ARM templates allow you to specify declaratively how to create an application. A resource group is included to allow you to deploy an Azure App Service along with an App Insights service. Configuration of application settings required by the App Insights SDK is done as part of the deployment.
+ARM templates allow you to specify declaratively how to create an application. A resource template is included to allow you to deploy all infrastructure from a single script: -
+
+* App Hosting Plan
+* App Service
+* App Insights
+* Configuration Settings for App Service based on App Insights
 
 ### Suave integration
 A web.config file is provided within the Suave application which is used when hosting Suave executables within the Azure App Service. Essentially IIS acts as a pass-thru to allow you to forward all requests directly to the Suave application.
@@ -25,10 +29,10 @@ Some code has been added to the Suave application to allow easy App Insights int
 ### Source Code deployment
 Support is provided for direct deployment from source code e.g. GitHub directly to Azure App Service.  This is enabled through the ``build.cmd`` file, which utilises Azure's Kudu framework to perform builds via calling: -
 
-* Paket bootstrapper (download Paket)
-* Paket restore (download Nuget dependencies)
-* MSBuild (build source code)
-* Kudu Sync (diff MSBuild outputs with previous deployment)
+* ``Paket bootstrapper`` (download Paket)
+* ``Paket restore`` (download Nuget dependencies)
+* ``MSBuild`` (build source code)
+* ``Kudu Sync`` (diff MSBuild outputs with previous deployment)
     
 Note that the ``.deployment`` file is used to tell Kudu which command to run whenever a push occurs to e.g. the Git repository.
     
