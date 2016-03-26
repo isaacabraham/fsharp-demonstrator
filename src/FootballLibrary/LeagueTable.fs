@@ -34,13 +34,14 @@ let isValidResult =
     let isDateRow = awayRowContains ","
     let isInFuture = awayRowContains "vs"
     let isPostponed = awayRowContains "P - P"
-    
-    [ not << isBlankRow
-      not << isDateRow
-      not << isInFuture
-      not << isCurrentlyPlaying
-      not << isPostponed ]
-    |> List.reduce (fun ruleA ruleB result -> ruleA result && ruleB result)
+    /// Compose two rules together by ANDing the results to make a new rule
+    let (<&>) ruleA ruleB result = ruleA result && ruleB result
+
+    (not << isBlankRow)
+    <&> (not << isDateRow)
+    <&> (not << isInFuture)
+    <&> (not << isCurrentlyPlaying)
+    <&> (not << isPostponed)
 
 let getLeague (untilMonth:FootballMonth) =
     [| int FootballMonth.August .. int untilMonth |]
