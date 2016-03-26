@@ -1,0 +1,56 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.24720.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".paket", ".paket", "{0C5F06F9-EF4E-4D50-AC69-36FEB7B3A946}"
+	ProjectSection(SolutionItems) = preProject
+		paket.dependencies = paket.dependencies
+		paket.lock = paket.lock
+	EndProjectSection
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "FootballLibrary", "src\FootballLibrary\FootballLibrary.fsproj", "{1A4610CE-D30D-46E1-9D5E-0172965399BC}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "SuaveHost", "src\SuaveHost\SuaveHost.fsproj", "{8F061178-EE0A-4287-B593-2B7DF78A47DF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8A890CE3-3499-4FAE-8C52-80EA4A32C6FC}"
+	ProjectSection(SolutionItems) = preProject
+		build.cmd = build.cmd
+		src\Sample.fsx = src\Sample.fsx
+	EndProjectSection
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "OwinHost", "src\WebHost\OwinHost.fsproj", "{66FDDA31-6606-410C-837C-DBAF351B3AB3}"
+EndProject
+Project("{151D2E53-A2C4-4D7D-83FE-D05416EBD58E}") = "ResourceGroup", "src\ResourceGroup\ResourceGroup.deployproj", "{4EBA46A3-7F9E-4F4C-9D50-98E9DA683EBB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Deployment", "Deployment", "{918DD70D-0D7E-458A-9C4E-E52247514FD4}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1A4610CE-D30D-46E1-9D5E-0172965399BC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1A4610CE-D30D-46E1-9D5E-0172965399BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1A4610CE-D30D-46E1-9D5E-0172965399BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1A4610CE-D30D-46E1-9D5E-0172965399BC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8F061178-EE0A-4287-B593-2B7DF78A47DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8F061178-EE0A-4287-B593-2B7DF78A47DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8F061178-EE0A-4287-B593-2B7DF78A47DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8F061178-EE0A-4287-B593-2B7DF78A47DF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{66FDDA31-6606-410C-837C-DBAF351B3AB3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{66FDDA31-6606-410C-837C-DBAF351B3AB3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{66FDDA31-6606-410C-837C-DBAF351B3AB3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4EBA46A3-7F9E-4F4C-9D50-98E9DA683EBB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4EBA46A3-7F9E-4F4C-9D50-98E9DA683EBB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4EBA46A3-7F9E-4F4C-9D50-98E9DA683EBB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4EBA46A3-7F9E-4F4C-9D50-98E9DA683EBB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{4EBA46A3-7F9E-4F4C-9D50-98E9DA683EBB} = {918DD70D-0D7E-458A-9C4E-E52247514FD4}
+	EndGlobalSection
+EndGlobal

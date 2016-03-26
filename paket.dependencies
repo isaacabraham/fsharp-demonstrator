@@ -1,0 +1,16 @@
+source https://www.nuget.org/api/v2/
+redirects on
+framework net452
+
+nuget Microsoft.AspNet.WebApi.Owin
+nuget Microsoft.Owin.Host.SystemWeb
+nuget Microsoft.Owin.StaticFiles
+nuget OwinHost
+nuget FSharp.Core
+nuget FSharp.Data
+nuget XPlot.GoogleCharts content:none
+nuget Suave
+nuget Microsoft.ApplicationInsights content:none
+nuget Microsoft.ApplicationInsights.TraceListener content:none
+nuget Microsoft.ApplicationInsights.WindowsServer content:none
+nuget Deedle

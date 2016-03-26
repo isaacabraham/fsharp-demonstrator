@@ -1,0 +1,23 @@
+// Place your settings in this file to overwrite default and user settings.
+{
+    "files.exclude": {
+        "**/.git": true,
+        "**/*.js": { "when": "$(basename).ts"},
+        "**/*.js.map" : true,
+        "**/bin/**": true,
+        "**/obj/**": true,
+        "**/**paket**": true,
+        "**/.vs": true,
+        "**/packages": true,
+        "**/*.sln": true,
+        "**/.DS_Store": true,
+        "**/assets": true,
+        "**/css": true,
+        "**/fonts": true,
+        "**/img": true,
+        "**/less": true,
+        "**/style-switcher": true,
+     //   "**/*.fs*": true,
+        "**/Web.config": true
+    }
+}

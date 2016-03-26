@@ -1,0 +1,6 @@
+Microsoft.AspNet.WebApi.Owin
+Microsoft.Owin.Host.SystemWeb
+Microsoft.Owin.StaticFiles
+OwinHost
+FSharp.Core
+FSharp.Data

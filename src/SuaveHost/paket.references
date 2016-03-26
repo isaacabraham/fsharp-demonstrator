@@ -1,0 +1,6 @@
+FSharp.Core
+Suave
+Newtonsoft.Json
+FSharp.Data
+Microsoft.ApplicationInsights.TraceListener
+Microsoft.ApplicationInsights.WindowsServer

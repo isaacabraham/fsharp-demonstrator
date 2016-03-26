@@ -1,0 +1,44 @@
+<div class="page-header" id="banner">
+    <div class="row">
+        <div class="col-lg-12">
+            <h1>Current Premier League Table</h1>
+            <p class="lead">Type Provider Mashup</p>
+        </div>
+    </div>
+</div>
+
+<div class="bs-doc-section">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="bs-component">
+                <label for="repeatSelect"> Show table at end of:</label>
+                <select name="repeatSelect" id="repeatSelect" ng-model="Controller.SelectedMonth" ng-options="month.Name for month in Controller.Months track by month.Id"
+                ng-change="Controller.loadTable(Controller.SelectedMonth.Id)"></select>
+            </div>
+            <div class="bs-component">
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <tr>
+                            <th>Team</th>
+                            <th>Played</th>
+                            <th>Won</th>
+                            <th>Drew</th>
+                            <th>Lost</th>
+                            <th>Goal Difference</th>
+                            <th>Points</th>
+                        </tr>
+                        <tr ng-repeat="team in Controller.Teams" class="{{team.Style}}">
+                            <td ng-click="Controller.loadTeam(team.Name)"><strong>{{team.Name}}</strong></td>
+                            <td>{{team.Played}}</td>
+                            <td>{{team.Wins}}</td>
+                            <td>{{team.Draws}}</td>
+                            <td>{{team.Losses}}</td>
+                            <td>{{team.GoalDifference}}</td>
+                            <td>{{team.Pts}}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
