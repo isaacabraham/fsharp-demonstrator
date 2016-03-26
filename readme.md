@@ -25,10 +25,10 @@ Some code has been added to the Suave application to allow easy App Insights int
 ### Source Code deployment
 Support is provided for direct deployment from source code e.g. GitHub directly to Azure App Service.  This is enabled through the ``build.cmd`` file, which utilises Azure's Kudu framework to perform builds via calling: -
 
-    * Paket bootstrapper (download Paket)
-    * Paket restore (download Nuget dependencies)
-    * MSBuild (build source code)
-    * Kudu Sync (diff MSBuild outputs with previous deployment)
+* Paket bootstrapper (download Paket)
+* Paket restore (download Nuget dependencies)
+* MSBuild (build source code)
+* Kudu Sync (diff MSBuild outputs with previous deployment)
     
 Note that the ``.deployment`` file is used to tell Kudu which command to run whenever a push occurs to e.g. the Git repository.
     
