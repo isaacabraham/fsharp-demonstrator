@@ -38,7 +38,6 @@
     <Content Include="Templates\WebSite.parameters.json" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Tools\AzCopy.exe" />
     <Content Include="Tools\Microsoft.Data.Edm.dll">
       <Visible>False</Visible>
     </Content>
