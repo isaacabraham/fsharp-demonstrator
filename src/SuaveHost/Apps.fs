@@ -11,6 +11,7 @@ open System
 open FootballDemo
 open FootballDemo.LeagueTable
 open FootballDemo.TeamStats
+open Suave.Successful
 
 /// Routes for the Football Library.
 let footballApp =
@@ -20,9 +21,13 @@ let footballApp =
 
 /// Routes for the Enigma app.
 let enigmaApp =
-    POST >=> choose [
-        path "/api/enigma/translate" >=> fun ctx ->
-            async { return Some ctx } ]
+    choose [
+        POST >=> path "/api/enigma/translate" >=> fun ctx -> async { return Some ctx }
+        GET >=> choose [
+            pathScan "/api/enigma/reflector/%d" (EnigmaApi.getReflectorResponse >> optionallyWith OK)
+            pathScan "/api/enigma/rotor/%d" (EnigmaApi.getRotorResponse >> optionallyWith toJson)
+        ]
+    ]
 
 /// Routes for non-application specific features.
 let basicApp staticFileRoot =

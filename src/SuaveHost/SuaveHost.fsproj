@@ -76,7 +76,7 @@
     <Compile Include="AssemblyInfo.fs" />
     <Compile Include="Helpers.fs" />
     <Compile Include="AppInsightsHelpers.fs" />
-    <Compile Include="Enigma.fs" />
+    <Compile Include="EnigmaApi.fs" />
     <Compile Include="Apps.fs" />
     <Compile Include="Program.fs" />
     <None Include="Scripts\ScratchPadEngima.fsx" />

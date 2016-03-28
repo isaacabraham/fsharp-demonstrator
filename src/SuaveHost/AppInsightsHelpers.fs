@@ -13,7 +13,8 @@ open System.Configuration
 let telemetryClient = TelemetryClient()
 
 let private buildOperationName (uri:Uri) =
-    if uri.AbsolutePath.StartsWith "/api/" then "/api/" + uri.Segments.[2]
+    if uri.AbsolutePath.StartsWith "/api/" && uri.Segments.Length > 2 then
+        "/api/" + uri.Segments.[2]
     else uri.AbsolutePath
 
 let withRequestTracking (webPart:WebPart) context =

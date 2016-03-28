@@ -50,6 +50,11 @@ let toJsonAsync op ctx =
         let data = data |> toJson
         return! data ctx
     }
+
+let optionallyWith handler response =
+    match response with
+    | Some response -> handler response
+    | None -> RequestErrors.NOT_FOUND ""
     
 let getConfig port =
   { defaultConfig with
