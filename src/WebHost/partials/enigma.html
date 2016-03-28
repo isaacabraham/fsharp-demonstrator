@@ -9,8 +9,8 @@
 
 <div class="bs-doc-section">
     <div class="row">
-        <div class="well col-lg-3">
-            <legend>Configuration</legend>
+        <div class="col-lg-2">
+            <legend>Initial Config</legend>
             <h5>Reflector</h5>
             <select ng-model="Controller.Configuration.ReflectorId" ng-change="Controller.loadReflector(Controller.Configuration.ReflectorId)">
                 <option ng-repeat="reflector in Controller.Reflectors" value="{{reflector}}">{{reflector}}</option>
@@ -50,7 +50,7 @@
             </select>
         </div>
 
-        <div class="col-lg-9">
+        <div class="col-lg-10">
             <legend>Enigma Internals</legend>
             <table class="table table-bordered">
                 <thead>
@@ -85,11 +85,18 @@
     </div>
 
     <div class="row">
-        <form>
-            <div>
-                <input type="text">
-                <input type="text" readonly>
+        <div class="col-lg-12">
+            <legend>Translate</legend>
+            <div class="col-lg-1">
+                <input class="form-control" type="text" ng-model="Controller.NextChar" ng-change="Controller.translate()">
             </div>
-        </form>
+            <div class="col-lg-6">
+                <input class="form-control" type="text" ng-model="Controller.Input" readonly>
+            </div>
+            <div class="col-lg-5">
+                <input class="form-control" type="text" ng-model="Controller.Translation" readonly>
+            </div>
+            <button class="btn btn-default btn-sm" type="button" ng-click="Controller.restart()">Restart</button>
+        </div>
     </div>
 </div>

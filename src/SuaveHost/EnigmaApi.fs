@@ -73,12 +73,14 @@ let performTranslation (request:TranslationRequest) : TranslationResponse =
         Right = newEnigma.Right |> toRotorResponse } }
 let getReflectorResponse = tryGetReflector >> Option.map(fun (Reflector x) -> String x)
 let getRotorResponse = tryGetRotor >> Option.map toRotorResponse
+
+/// Gives back the state of an enigma machine given a configuration.
 let configureEnigma (config:Configuration) =
-    let newEnigma =
+    let enigma =
         { defaultEnigma with Reflector = getReflector config.ReflectorId }
         |> withRotors (getRotor config.Left.RotorId) (getRotor config.Middle.RotorId) (getRotor config.Right.RotorId)
         |> withWheelPositions config.Left.WheelPosition config.Middle.WheelPosition config.Right.WheelPosition
         |> withRingSettings config.Left.RingSetting config.Middle.RingSetting config.Right.RingSetting
-    { MachineState.Left = newEnigma.Left |> toRotorResponse
-      Middle = newEnigma.Middle |> toRotorResponse
-      Right = newEnigma.Right |> toRotorResponse }
+    { MachineState.Left = enigma.Left |> toRotorResponse
+      Middle = enigma.Middle |> toRotorResponse
+      Right = enigma.Right |> toRotorResponse }

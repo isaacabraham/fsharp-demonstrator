@@ -8,15 +8,7 @@ var EnigmaController = (function () {
         this.Reflectors = [1, 2];
         this.Rotors = [1, 2, 3, 4, 5, 6, 7, 8];
         // Initial state
-        this.Configuration = {
-            ReflectorId: "2",
-            Right: { RingSetting: "A", WheelPosition: "A", RotorId: "1" },
-            Middle: { RingSetting: "A", WheelPosition: "A", RotorId: "2" },
-            Left: { RingSetting: "A", WheelPosition: "A", RotorId: "3" },
-            PlugBoard: []
-        };
-        this.loadReflector(parseInt(this.Configuration.ReflectorId));
-        this.loadConfiguration();
+        this.restart();
     }
     EnigmaController.prototype.loadReflector = function (reflectorId) {
         var _this = this;
@@ -33,6 +25,34 @@ var EnigmaController = (function () {
             _this.Middle = machine.Middle.Mapping;
             _this.Left = machine.Left.Mapping;
         });
+    };
+    EnigmaController.prototype.translate = function () {
+        var _this = this;
+        var request = { Character: this.NextChar, CharacterIndex: this.Translation.length, Configuration: this.Configuration };
+        this.httpService
+            .post("api/enigma/translate", request)
+            .success(function (response) {
+            _this.Input += _this.NextChar;
+            _this.NextChar = "";
+            _this.Translation += response.Translation;
+            _this.Right = response.MachineState.Right.Mapping;
+            _this.Middle = response.MachineState.Middle.Mapping;
+            _this.Left = response.MachineState.Left.Mapping;
+        });
+    };
+    EnigmaController.prototype.restart = function () {
+        this.Configuration = {
+            ReflectorId: "2",
+            Right: { RingSetting: "A", WheelPosition: "A", RotorId: "3" },
+            Middle: { RingSetting: "A", WheelPosition: "A", RotorId: "2" },
+            Left: { RingSetting: "A", WheelPosition: "A", RotorId: "1" },
+            PlugBoard: []
+        };
+        this.Translation = "";
+        this.Input = "";
+        this.NextChar = "";
+        this.loadReflector(parseInt(this.Configuration.ReflectorId));
+        this.loadConfiguration();
     };
     return EnigmaController;
 })();
