@@ -14,3 +14,6 @@ nuget Microsoft.ApplicationInsights content:none
 nuget Microsoft.ApplicationInsights.TraceListener content:none
 nuget Microsoft.ApplicationInsights.WindowsServer content:none
 nuget Deedle
+
+github isaacabraham/enigma src/Enigma/Domain.fs
+github isaacabraham/enigma src/Enigma/Logic.fs

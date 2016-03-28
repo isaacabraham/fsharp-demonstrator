@@ -65,10 +65,21 @@
   </Target>
   -->
   <ItemGroup>
+    <Compile Include="..\..\paket-files\isaacabraham\enigma\src\Enigma\Domain.fs">
+      <Paket>True</Paket>
+      <Link>paket-files/Domain.fs</Link>
+    </Compile>
+    <Compile Include="..\..\paket-files\isaacabraham\enigma\src\Enigma\Logic.fs">
+      <Paket>True</Paket>
+      <Link>paket-files/Logic.fs</Link>
+    </Compile>
     <Compile Include="AssemblyInfo.fs" />
     <Compile Include="Helpers.fs" />
     <Compile Include="AppInsightsHelpers.fs" />
+    <Compile Include="Enigma.fs" />
+    <Compile Include="Apps.fs" />
     <Compile Include="Program.fs" />
+    <None Include="Scripts\ScratchPadEngima.fsx" />
     <None Include="App.config" />
     <Content Include="web.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

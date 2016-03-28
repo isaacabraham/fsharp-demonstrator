@@ -1,5 +1,5 @@
 ﻿[<AutoOpen>]
-module FootballDemo.Helpers
+module SuaveHost.Helpers
 
 open Newtonsoft.Json
 open Suave
@@ -13,6 +13,7 @@ open System.Net
 open System.Configuration
 open Microsoft.ApplicationInsights.TraceListener
 
+/// Starts all trace listeners.
 let startTracing() =
     Trace.AutoFlush <- true
     Trace.Listeners.Add (new ConsoleTraceListener()) |> ignore

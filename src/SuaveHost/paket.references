@@ -4,3 +4,6 @@ Newtonsoft.Json
 FSharp.Data
 Microsoft.ApplicationInsights.TraceListener
 Microsoft.ApplicationInsights.WindowsServer
+
+File:Domain.fs
+File:Logic.fs

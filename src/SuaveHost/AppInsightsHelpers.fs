@@ -1,4 +1,4 @@
-﻿module FootballDemo.AppInsightsHelpers
+﻿module SuaveHost.AppInsightsHelpers
 
 open Microsoft.ApplicationInsights
 open Microsoft.ApplicationInsights.DataContracts
