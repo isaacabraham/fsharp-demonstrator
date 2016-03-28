@@ -12,39 +12,35 @@ type TranslationRequest =
     { Character : char
       CharacterIndex : int
       Configuration : Configuration }
-type RotorResponse =
+type RotorState =
     { RotorId : int
       Mapping : string
       KnockOns : int array }
+type MachineState =
+    { Left : RotorState
+      Middle : RotorState
+      Right : RotorState }
 type TranslationResponse =
     { Translation : char
-      Left : RotorResponse
-      Middle : RotorResponse
-      Right : RotorResponse }
+      MachineState : MachineState }
 
 open Enigma
 open System
 
-let failIfNone msg = function | Some x -> x | None -> failwith msg
-
-let private tryGetReflector reflectorId =
-    match reflectorId with
+let private failIfNone msg = function | Some x -> x | None -> failwith msg
+let private tryGetReflector = function
     | 1 -> Some Components.ReflectorA
     | 2 -> Some Components.ReflectorB
     | _ -> None
-
-let private tryGetRotor rotorId =
-    Components.Rotors |> List.tryFind(fun rotor -> rotor.ID = rotorId)
+let private tryGetRotor rotorId = Components.Rotors |> List.tryFind(fun rotor -> rotor.ID = rotorId)
 let private toRotorResponse rotor =
     { RotorId = rotor.ID
       Mapping = String rotor.Mapping
       KnockOns = rotor.KnockOns |> List.map(fun (KnockOn ko) -> ko) |> List.toArray }
-
-let getReflectorResponse = tryGetReflector >> Option.map(fun (Reflector x) -> String x)
-let getRotorResponse = tryGetRotor >> Option.map toRotorResponse
-
+let private getRotor = tryGetRotor >> failIfNone "Invalid rotor. Must be between 1 and 8."
+let private getReflector = tryGetReflector >> failIfNone "Invalid Reflector. Must be 1 or 2."
 /// Generates an Enigma machine from a public request.
-let toEnigma (request:TranslationRequest) =   
+let private toEnigma (request:TranslationRequest) =   
     let getPlugboard (plugboard:PlugboardMapping array) =
         let duplicates =
             plugboard
@@ -55,8 +51,6 @@ let toEnigma (request:TranslationRequest) =
         plugboard
         |> Array.map(fun pb -> String [| pb.From; pb.To |])
         |> String.concat " "
-
-    let getRotor = tryGetRotor >> failIfNone "Invalid rotor. Must be between 1 and 8."
 
     { defaultEnigma with 
         Reflector = tryGetReflector request.Configuration.ReflectorId |> failIfNone "Invalid Reflector ID. Must be 1 or 2."
@@ -73,6 +67,18 @@ let performTranslation (request:TranslationRequest) : TranslationResponse =
     let translatedCharacter, newEnigma = Operations.translateChar enigma request.Character
 
     { Translation = translatedCharacter
-      Left = newEnigma.Left |> toRotorResponse
+      MachineState =
+      { Left = newEnigma.Left |> toRotorResponse
+        Middle = newEnigma.Middle |> toRotorResponse
+        Right = newEnigma.Right |> toRotorResponse } }
+let getReflectorResponse = tryGetReflector >> Option.map(fun (Reflector x) -> String x)
+let getRotorResponse = tryGetRotor >> Option.map toRotorResponse
+let configureEnigma (config:Configuration) =
+    let newEnigma =
+        { defaultEnigma with Reflector = getReflector config.ReflectorId }
+        |> withRotors (getRotor config.Left.RotorId) (getRotor config.Middle.RotorId) (getRotor config.Right.RotorId)
+        |> withWheelPositions config.Left.WheelPosition config.Middle.WheelPosition config.Right.WheelPosition
+        |> withRingSettings config.Left.RingSetting config.Middle.RingSetting config.Right.RingSetting
+    { MachineState.Left = newEnigma.Left |> toRotorResponse
       Middle = newEnigma.Middle |> toRotorResponse
       Right = newEnigma.Right |> toRotorResponse }

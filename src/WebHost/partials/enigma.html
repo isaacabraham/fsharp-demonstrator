@@ -9,13 +9,55 @@
 
 <div class="bs-doc-section">
     <div class="row">
-        <div class="col-lg-6">            
+        <div class="well col-lg-3">
+            <legend>Configuration</legend>
+            <h5>Reflector</h5>
+            <select ng-model="Controller.Configuration.ReflectorId" ng-change="Controller.loadReflector(Controller.Configuration.ReflectorId)">
+                <option ng-repeat="reflector in Controller.Reflectors" value="{{reflector}}">{{reflector}}</option>
+            </select>
+
+            <h5>Rotors</h5>
+            <select ng-model="Controller.Configuration.Right.RotorId" ng-change="Controller.loadConfiguration()">
+                <option ng-repeat="rotor in Controller.Rotors" value="{{rotor}}">{{rotor}}</option>
+            </select>
+            <select ng-model="Controller.Configuration.Middle.RotorId" ng-change="Controller.loadConfiguration()">
+                <option ng-repeat="rotor in Controller.Rotors" value="{{rotor}}">{{rotor}}</option>
+            </select>
+            <select ng-model="Controller.Configuration.Left.RotorId" ng-change="Controller.loadConfiguration()">
+                <option ng-repeat="rotor in Controller.Rotors" value="{{rotor}}">{{rotor}}</option>
+            </select>
+
+            <h5>Wheel Positions</h5>
+            <select ng-model="Controller.Configuration.Right.WheelPosition" ng-change="Controller.loadConfiguration()">
+                <option ng-repeat="letter in Controller.Alphabet" value="{{letter}}">{{letter}}</option>
+            </select>
+            <select ng-model="Controller.Configuration.Middle.WheelPosition" ng-change="Controller.loadConfiguration()">
+                <option ng-repeat="letter in Controller.Alphabet" value="{{letter}}">{{letter}}</option>
+            </select>
+            <select ng-model="Controller.Configuration.Left.WheelPosition" ng-change="Controller.loadConfiguration()">
+                <option ng-repeat="letter in Controller.Alphabet" value="{{letter}}">{{letter}}</option>
+            </select>
+
+            <h5>Ring Settings</h5>
+            <select ng-model="Controller.Configuration.Right.RingSetting" ng-change="Controller.loadConfiguration()">
+                <option ng-repeat="letter in Controller.Alphabet" value="{{letter}}">{{letter}}</option>
+            </select>
+            <select ng-model="Controller.Configuration.Middle.RingSetting" ng-change="Controller.loadConfiguration()">
+                <option ng-repeat="letter in Controller.Alphabet" value="{{letter}}">{{letter}}</option>
+            </select>
+            <select ng-model="Controller.Configuration.Left.RingSetting" ng-change="Controller.loadConfiguration()">
+                <option ng-repeat="letter in Controller.Alphabet" value="{{letter}}">{{letter}}</option>
+            </select>
+        </div>
+
+        <div class="col-lg-9">
+            <legend>Enigma Internals</legend>
             <table class="table table-bordered">
                 <thead>
                     <tr>
                         <th></th>
                         <th ng-repeat="letter in Controller.Alphabet">{{letter}}</th>
-                    </tr>           
+                    </tr>
                 </thead>
                 <tbody>
                     <tr>
@@ -40,5 +82,14 @@
                 </tbody>
             </table>
         </div>
+    </div>
+
+    <div class="row">
+        <form>
+            <div>
+                <input type="text">
+                <input type="text" readonly>
+            </div>
+        </form>
     </div>
 </div>

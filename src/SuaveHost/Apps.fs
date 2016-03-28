@@ -22,11 +22,13 @@ let footballApp =
         pathScan "/api/team/%s" (Uri.UnescapeDataString >> loadStatsForTeam >> toJsonAsync) ]
 
 
-open System.Text
 /// Routes for the Enigma app.
 let enigmaApp =
     choose [
-        POST >=> path "/api/enigma/translate" >=> Helpers.mapJson EnigmaApi.performTranslation
+        POST >=> choose [
+            path "/api/enigma/translate" >=> Helpers.mapJson EnigmaApi.performTranslation
+            path "/api/enigma/configure" >=> Helpers.mapJson EnigmaApi.configureEnigma
+        ]
         GET >=> choose [
             pathScan "/api/enigma/reflector/%d" (EnigmaApi.getReflectorResponse >> optionallyWith OK)
             pathScan "/api/enigma/rotor/%d" (EnigmaApi.getRotorResponse >> optionallyWith Helpers.toJson)

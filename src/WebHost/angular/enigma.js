@@ -1,14 +1,22 @@
 var enigmaModule = angular.module('enigmaModule', []);
 var EnigmaController = (function () {
     function EnigmaController(httpService, scope) {
-        var _this = this;
         this.httpService = httpService;
         this.scope = scope;
+        // Reference Data
         this.Alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-        this.loadReflector(2);
-        this.loadRotor(1, function (rotor) { return _this.Right = rotor.Mapping; });
-        this.loadRotor(2, function (rotor) { return _this.Middle = rotor.Mapping; });
-        this.loadRotor(3, function (rotor) { return _this.Left = rotor.Mapping; });
+        this.Reflectors = [1, 2];
+        this.Rotors = [1, 2, 3, 4, 5, 6, 7, 8];
+        // Initial state
+        this.Configuration = {
+            ReflectorId: "2",
+            Right: { RingSetting: "A", WheelPosition: "A", RotorId: "1" },
+            Middle: { RingSetting: "A", WheelPosition: "A", RotorId: "2" },
+            Left: { RingSetting: "A", WheelPosition: "A", RotorId: "3" },
+            PlugBoard: []
+        };
+        this.loadReflector(parseInt(this.Configuration.ReflectorId));
+        this.loadConfiguration();
     }
     EnigmaController.prototype.loadReflector = function (reflectorId) {
         var _this = this;
@@ -16,10 +24,15 @@ var EnigmaController = (function () {
             .get("api/enigma/reflector/" + reflectorId)
             .success(function (reflector) { return _this.Reflector = reflector; });
     };
-    EnigmaController.prototype.loadRotor = function (rotorId, onComplete) {
+    EnigmaController.prototype.loadConfiguration = function () {
+        var _this = this;
         this.httpService
-            .get("api/enigma/rotor/" + rotorId)
-            .success(function (reflector) { return onComplete(reflector); });
+            .post("api/enigma/configure", this.Configuration)
+            .success(function (machine) {
+            _this.Right = machine.Right.Mapping;
+            _this.Middle = machine.Middle.Mapping;
+            _this.Left = machine.Left.Mapping;
+        });
     };
     return EnigmaController;
 })();
