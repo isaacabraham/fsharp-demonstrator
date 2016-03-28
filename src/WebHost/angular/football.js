@@ -49,4 +49,4 @@ footballModule.controller('TeamStatsCtrl', function ($scope, $http, teamName) {
         $scope.LoadingData = false;
     });
 });
-//# sourceMappingURL=controllers.js.map
+//# sourceMappingURL=football.js.map

@@ -1,0 +1,44 @@
+<div class="page-header" id="banner">
+    <div class="row">
+        <div class="col-lg-12">
+            <h1>Enigma Simulator</h1>
+            <p class="lead">State machine with immutable data structures</p>
+        </div>
+    </div>
+</div>
+
+<div class="bs-doc-section">
+    <div class="row">
+        <div class="col-lg-6">            
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th ng-repeat="letter in Controller.Alphabet">{{letter}}</th>
+                    </tr>           
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Steckerboard</strong></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Right</strong></td>
+                        <td ng-repeat="letter in Controller.Right">{{letter}}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Middle</strong></td>
+                        <td ng-repeat="letter in Controller.Middle">{{letter}}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Left</strong></td>
+                        <td ng-repeat="letter in Controller.Left">{{letter}}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Reflector</strong></td>
+                        <td ng-repeat="letter in Controller.Reflector">{{letter}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
