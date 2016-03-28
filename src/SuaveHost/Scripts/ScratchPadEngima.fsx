@@ -1,6 +1,6 @@
 ﻿#load "../../../paket-files/isaacabraham/enigma/src/Enigma/Domain.fs"
 #load "../../../paket-files/isaacabraham/enigma/src/Enigma/Logic.fs"
-#load "../Enigma.fs"
+#load "../EnigmaApi.fs"
 #r "../../../packages/Newtonsoft.Json/lib/net45/Newtonsoft.Json.dll"
 
 open SuaveHost
@@ -21,11 +21,13 @@ let request =
       CharacterIndex = 0
       Configuration = config }
 
-let reflector = String (getReflector 2)
+request |> Newtonsoft.Json.JsonConvert.SerializeObject
 
-let printIt reflector board response =
+let reflector = getReflectorResponse 2
+
+let printIt reflector board (response:TranslationResponse) =
     let alphabet = String [| 'A' .. 'Z' |]
-    printfn "Translated to %c" response.Character
+    printfn "Translated to %c" response.Translation
     printfn "A: %s" alphabet
     printfn "S: %s"
         (alphabet.ToCharArray()
@@ -35,9 +37,9 @@ let printIt reflector board response =
              |> Option.map(fun b -> if b.From = letter then b.To else b.From)
              |> defaultArg <| ' ')
          |> String)
-    printfn "R: %s" response.Right
-    printfn "M: %s" response.Middle
-    printfn "L: %s" response.Left
+    printfn "R: %s" response.Right.Mapping
+    printfn "M: %s" response.Middle.Mapping
+    printfn "L: %s" response.Left.Mapping
     printfn "F: %s" reflector
 
 let printItWith = printIt reflector config.PlugBoard

@@ -26,13 +26,7 @@ open System.Text
 /// Routes for the Enigma app.
 let enigmaApp =
     choose [
-        POST >=> path "/api/enigma/translate"
-             >=> fun ctx ->
-                    let form = ctx.request.rawForm |> Encoding.UTF8.GetString
-                    JsonConvert.DeserializeObject<EnigmaApi.TranslationRequest> form
-                    |> EnigmaApi.performTranslation
-                    |> Helpers.toJson
-                    |> fun webpart -> webpart ctx
+        POST >=> path "/api/enigma/translate" >=> Helpers.mapJson EnigmaApi.performTranslation
         GET >=> choose [
             pathScan "/api/enigma/reflector/%d" (EnigmaApi.getReflectorResponse >> optionallyWith OK)
             pathScan "/api/enigma/rotor/%d" (EnigmaApi.getRotorResponse >> optionallyWith Helpers.toJson)

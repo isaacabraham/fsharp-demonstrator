@@ -12,6 +12,7 @@ open System.Diagnostics
 open System.Net
 open System.Configuration
 open Microsoft.ApplicationInsights.TraceListener
+open System.Text
 
 /// Starts all trace listeners.
 let startTracing() =
@@ -43,6 +44,8 @@ let logger =
             | _ -> Trace.TraceInformation logLine.message
             Trace.Flush() }
 
+    
+
 let toJson data = (data |> JsonConvert.SerializeObject |> OK) >=> setMimeType "application/json; charset=utf-8"
 let toJsonAsync op ctx =
     async {
@@ -50,6 +53,11 @@ let toJsonAsync op ctx =
         let data = data |> toJson
         return! data ctx
     }
+
+let mapJson<'a,'b> (f:'a -> 'b) =
+  request(fun req ->
+    f (JsonConvert.DeserializeObject<'a>(Encoding.UTF8.GetString req.rawForm))
+    |> toJson)
 
 let optionallyWith handler response =
     match response with
