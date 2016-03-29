@@ -65,7 +65,7 @@ class EnigmaController {
         this.httpService
                 .post("api/enigma/translate", request)
                 .success((response: TranslationResponse) => {
-                    this.Input += this.NextChar;
+                    this.Input += this.NextChar.toUpperCase();
                     this.NextChar = "";
                     this.Translation += response.Translation;
 

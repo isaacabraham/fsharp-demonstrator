@@ -32,7 +32,7 @@ var EnigmaController = (function () {
         this.httpService
             .post("api/enigma/translate", request)
             .success(function (response) {
-            _this.Input += _this.NextChar;
+            _this.Input += _this.NextChar.toUpperCase();
             _this.NextChar = "";
             _this.Translation += response.Translation;
             _this.Right = response.MachineState.Right.Mapping;
