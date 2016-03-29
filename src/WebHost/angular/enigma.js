@@ -4,40 +4,74 @@ var EnigmaController = (function () {
         this.httpService = httpService;
         this.scope = scope;
         // Reference Data
-        this.Alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        this.Alphabet = this.toColouredCharacters("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
         this.Reflectors = [1, 2];
         this.Rotors = [1, 2, 3, 4, 5, 6, 7, 8];
         // Initial state
         this.restart();
     }
-    EnigmaController.prototype.loadReflector = function (reflectorId) {
-        var _this = this;
-        this.httpService
-            .get("api/enigma/reflector/" + reflectorId)
-            .success(function (reflector) { return _this.Reflector = reflector; });
+    EnigmaController.prototype.toColouredCharacters = function (data) {
+        return data.split('')
+            .map(function (c) { return { Value: c, State: "" }; });
     };
     EnigmaController.prototype.loadConfiguration = function () {
         var _this = this;
+        this.Translation = "";
+        this.Input = "";
+        this.NextChar = "";
         this.httpService
             .post("api/enigma/configure", this.Configuration)
             .success(function (machine) {
-            _this.Right = machine.Right.Mapping;
-            _this.Middle = machine.Middle.Mapping;
-            _this.Left = machine.Left.Mapping;
+            _this.Right = _this.toColouredCharacters(machine.Right.Mapping);
+            _this.Middle = _this.toColouredCharacters(machine.Middle.Mapping);
+            _this.Left = _this.toColouredCharacters(machine.Left.Mapping);
         });
+        this.httpService
+            .get("api/enigma/reflector/" + this.Configuration.ReflectorId)
+            .success(function (reflector) { return _this.Reflector = _this.toColouredCharacters(reflector); });
+    };
+    EnigmaController.prototype.findIndexOfColouredCharacter = function (mapping, position) {
+        for (var index = 0; index < mapping.length; index++) {
+            if (mapping[index].Value == position)
+                return index;
+        }
+    };
+    EnigmaController.prototype.setUpwardsColour = function (mapping, position) {
+        mapping.forEach(function (element) { return element.State = ""; });
+        var index = this.findIndexOfColouredCharacter(this.Alphabet, position);
+        mapping[index].State = "success";
+        return mapping[index].Value;
+    };
+    EnigmaController.prototype.setInverseColour = function (mapping, position) {
+        var index = this.findIndexOfColouredCharacter(mapping, position);
+        mapping[index].State = "warning";
+        return this.Alphabet[index].Value;
     };
     EnigmaController.prototype.translate = function () {
         var _this = this;
+        this.NextChar = this.NextChar.toUpperCase();
         var request = { Character: this.NextChar, CharacterIndex: this.Translation.length, Configuration: this.Configuration };
         this.httpService
             .post("api/enigma/translate", request)
             .success(function (response) {
-            _this.Input += _this.NextChar.toUpperCase();
+            // Update machine state
+            _this.Right = _this.toColouredCharacters(response.MachineState.Right.Mapping);
+            _this.Middle = _this.toColouredCharacters(response.MachineState.Middle.Mapping);
+            _this.Left = _this.toColouredCharacters(response.MachineState.Left.Mapping);
+            // Set colours
+            _this.setUpwardsColour(_this.Alphabet, _this.NextChar);
+            var next = _this.setUpwardsColour(_this.Right, _this.NextChar);
+            next = _this.setUpwardsColour(_this.Middle, next);
+            next = _this.setUpwardsColour(_this.Left, next);
+            next = _this.setUpwardsColour(_this.Reflector, next);
+            next = _this.setInverseColour(_this.Left, next);
+            next = _this.setInverseColour(_this.Middle, next);
+            next = _this.setInverseColour(_this.Right, next);
+            _this.setInverseColour(_this.Alphabet, next);
+            // Update textboxes
+            _this.Input += _this.NextChar;
             _this.NextChar = "";
             _this.Translation += response.Translation;
-            _this.Right = response.MachineState.Right.Mapping;
-            _this.Middle = response.MachineState.Middle.Mapping;
-            _this.Left = response.MachineState.Left.Mapping;
         });
     };
     EnigmaController.prototype.restart = function () {
@@ -48,10 +82,6 @@ var EnigmaController = (function () {
             Left: { RingSetting: "A", WheelPosition: "A", RotorId: "1" },
             PlugBoard: []
         };
-        this.Translation = "";
-        this.Input = "";
-        this.NextChar = "";
-        this.loadReflector(parseInt(this.Configuration.ReflectorId));
         this.loadConfiguration();
     };
     return EnigmaController;

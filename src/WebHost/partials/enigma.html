@@ -9,54 +9,56 @@
 
 <div class="bs-doc-section">
     <div class="row">
+        <!-- Configuration -->
         <div class="col-lg-2">
             <legend>Initial Config</legend>
             <h5>Reflector</h5>
-            <select ng-model="Controller.Configuration.ReflectorId" ng-change="Controller.loadReflector(Controller.Configuration.ReflectorId)">
+            <select ng-model="Controller.Configuration.ReflectorId" ng-change="Controller.loadConfiguration()">
                 <option ng-repeat="reflector in Controller.Reflectors" value="{{reflector}}">{{reflector}}</option>
             </select>
 
             <h5>Rotors</h5>
-            <select ng-model="Controller.Configuration.Right.RotorId" ng-change="Controller.loadConfiguration()">
+            <select ng-model="Controller.Configuration.Left.RotorId" ng-change="Controller.loadConfiguration()">
                 <option ng-repeat="rotor in Controller.Rotors" value="{{rotor}}">{{rotor}}</option>
             </select>
             <select ng-model="Controller.Configuration.Middle.RotorId" ng-change="Controller.loadConfiguration()">
                 <option ng-repeat="rotor in Controller.Rotors" value="{{rotor}}">{{rotor}}</option>
             </select>
-            <select ng-model="Controller.Configuration.Left.RotorId" ng-change="Controller.loadConfiguration()">
+            <select ng-model="Controller.Configuration.Right.RotorId" ng-change="Controller.loadConfiguration()">
                 <option ng-repeat="rotor in Controller.Rotors" value="{{rotor}}">{{rotor}}</option>
             </select>
 
             <h5>Wheel Positions</h5>
-            <select ng-model="Controller.Configuration.Right.WheelPosition" ng-change="Controller.loadConfiguration()">
-                <option ng-repeat="letter in Controller.Alphabet" value="{{letter}}">{{letter}}</option>
+            <select ng-model="Controller.Configuration.Left.WheelPosition" ng-change="Controller.loadConfiguration()">
+                <option ng-repeat="letter in Controller.Alphabet" value="{{letter.Value}}">{{letter.Value}}</option>
             </select>
             <select ng-model="Controller.Configuration.Middle.WheelPosition" ng-change="Controller.loadConfiguration()">
-                <option ng-repeat="letter in Controller.Alphabet" value="{{letter}}">{{letter}}</option>
+                <option ng-repeat="letter in Controller.Alphabet" value="{{letter.Value}}">{{letter.Value}}</option>
             </select>
-            <select ng-model="Controller.Configuration.Left.WheelPosition" ng-change="Controller.loadConfiguration()">
-                <option ng-repeat="letter in Controller.Alphabet" value="{{letter}}">{{letter}}</option>
+            <select ng-model="Controller.Configuration.Right.WheelPosition" ng-change="Controller.loadConfiguration()">
+                <option ng-repeat="letter in Controller.Alphabet" value="{{letter.Value}}">{{letter.Value}}</option>
             </select>
 
             <h5>Ring Settings</h5>
-            <select ng-model="Controller.Configuration.Right.RingSetting" ng-change="Controller.loadConfiguration()">
-                <option ng-repeat="letter in Controller.Alphabet" value="{{letter}}">{{letter}}</option>
+            <select ng-model="Controller.Configuration.Left.RingSetting" ng-change="Controller.loadConfiguration()">
+                <option ng-repeat="letter in Controller.Alphabet" value="{{letter.Value}}">{{letter.Value}}</option>
             </select>
             <select ng-model="Controller.Configuration.Middle.RingSetting" ng-change="Controller.loadConfiguration()">
-                <option ng-repeat="letter in Controller.Alphabet" value="{{letter}}">{{letter}}</option>
+                <option ng-repeat="letter in Controller.Alphabet" value="{{letter.Value}}">{{letter.Value}}</option>
             </select>
-            <select ng-model="Controller.Configuration.Left.RingSetting" ng-change="Controller.loadConfiguration()">
-                <option ng-repeat="letter in Controller.Alphabet" value="{{letter}}">{{letter}}</option>
+            <select ng-model="Controller.Configuration.Right.RingSetting" ng-change="Controller.loadConfiguration()">
+                <option ng-repeat="letter in Controller.Alphabet" value="{{letter.Value}}">{{letter.Value}}</option>
             </select>
         </div>
 
+        <!-- Machine State -->
         <div class="col-lg-10">
             <legend>Enigma Internals</legend>
             <table class="table table-bordered">
                 <thead>
                     <tr>
                         <th></th>
-                        <th ng-repeat="letter in Controller.Alphabet">{{letter}}</th>
+                        <th ng-repeat="letter in Controller.Alphabet" class="{{letter.State}}">{{letter.Value}}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -65,25 +67,26 @@
                     </tr>
                     <tr>
                         <td><strong>Right</strong></td>
-                        <td ng-repeat="letter in Controller.Right">{{letter}}</td>
+                        <td ng-repeat="letter in Controller.Right" class="{{letter.State}}">{{letter.Value}}</td>
                     </tr>
                     <tr>
                         <td><strong>Middle</strong></td>
-                        <td ng-repeat="letter in Controller.Middle">{{letter}}</td>
+                        <td ng-repeat="letter in Controller.Middle" class="{{letter.State}}">{{letter.Value}}</td>
                     </tr>
                     <tr>
                         <td><strong>Left</strong></td>
-                        <td ng-repeat="letter in Controller.Left">{{letter}}</td>
+                        <td ng-repeat="letter in Controller.Left" class="{{letter.State}}">{{letter.Value}}</td>
                     </tr>
                     <tr>
                         <td><strong>Reflector</strong></td>
-                        <td ng-repeat="letter in Controller.Reflector">{{letter}}</td>
+                        <td ng-repeat="letter in Controller.Reflector" class="{{letter.State}}">{{letter.Value}}</td>
                     </tr>
                 </tbody>
             </table>
         </div>
     </div>
 
+    <!-- Translation Form -->
     <form class="form-horizontal">
         <legend>Translate</legend>
         <div class="form-group">
@@ -106,7 +109,7 @@
         </div>
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
-                <button type="submit" class="btn btn-default" ng-click="Controller.restart()">Restart</button>
+                <button type="submit" class="btn btn-default" ng-click="Controller.restart()">Reset</button>
             </div>
         </div>
     </form>
