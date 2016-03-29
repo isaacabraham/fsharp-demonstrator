@@ -20,7 +20,7 @@ class EnigmaController {
     Right : ColouredCharacter[];
     Middle : ColouredCharacter[];
     Left : ColouredCharacter[];
-    Alphabet : ColouredCharacter[];
+    Keyboard : ColouredCharacter[];
     Steckerboard : string;
     
     // Reference Data
@@ -37,7 +37,7 @@ class EnigmaController {
     
     constructor(private httpService : ng.IHttpService, private scope : ng.IScope) {
         // Reference Data
-        this.Alphabet = this.toColouredCharacters("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
+        this.Keyboard = this.toColouredCharacters("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
         this.Reflectors = [ 1, 2 ];
         this.Rotors = [ 1, 2, 3, 4, 5, 6, 7, 8 ];
 
@@ -65,6 +65,8 @@ class EnigmaController {
         this.httpService
                 .get("api/enigma/reflector/" + this.Configuration.ReflectorId)
                 .success((reflector: string) => this.Reflector = this.toColouredCharacters(reflector));
+                
+        this.wipeColouredState(this.Keyboard);
     }
     
     private findIndexOfColouredCharacter(mapping:ColouredCharacter[], position:string) {
@@ -74,9 +76,11 @@ class EnigmaController {
         }
     }
     
+    private wipeColouredState(mapping:ColouredCharacter[]) { mapping.forEach(element => element.State = ""); }
+    
     private setUpwardsColour(mapping:ColouredCharacter[], position:string) {
-        mapping.forEach(element => element.State = "");
-        var index = this.findIndexOfColouredCharacter(this.Alphabet, position);
+        this.wipeColouredState(mapping);
+        var index = this.findIndexOfColouredCharacter(this.Keyboard, position);
         mapping[index].State = "success"
         return mapping[index].Value;
     }
@@ -84,7 +88,7 @@ class EnigmaController {
     private setInverseColour(mapping:ColouredCharacter[], position:string) {
         var index = this.findIndexOfColouredCharacter(mapping, position);
         mapping[index].State = "warning";
-        return this.Alphabet[index].Value;
+        return this.Keyboard[index].Value;
     }
     
     translate() {
@@ -99,7 +103,7 @@ class EnigmaController {
                     this.Left = this.toColouredCharacters(response.MachineState.Left.Mapping);
                     
                     // Set colours
-                    this.setUpwardsColour(this.Alphabet, this.NextChar);
+                    this.setUpwardsColour(this.Keyboard, this.NextChar);
                     var next = this.setUpwardsColour(this.Right, this.NextChar);
                     next = this.setUpwardsColour(this.Middle, next);
                     next = this.setUpwardsColour(this.Left, next);
@@ -107,7 +111,7 @@ class EnigmaController {
                     next = this.setInverseColour(this.Left, next);
                     next = this.setInverseColour(this.Middle, next);
                     next = this.setInverseColour(this.Right, next);
-                    this.setInverseColour(this.Alphabet, next);
+                    this.setInverseColour(this.Keyboard, next);
 
                     // Update textboxes
                     this.Input += this.NextChar;

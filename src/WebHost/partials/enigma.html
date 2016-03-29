@@ -30,24 +30,24 @@
 
             <h5>Wheel Positions</h5>
             <select ng-model="Controller.Configuration.Left.WheelPosition" ng-change="Controller.loadConfiguration()">
-                <option ng-repeat="letter in Controller.Alphabet" value="{{letter.Value}}">{{letter.Value}}</option>
+                <option ng-repeat="letter in Controller.Keyboard" value="{{letter.Value}}">{{letter.Value}}</option>
             </select>
             <select ng-model="Controller.Configuration.Middle.WheelPosition" ng-change="Controller.loadConfiguration()">
-                <option ng-repeat="letter in Controller.Alphabet" value="{{letter.Value}}">{{letter.Value}}</option>
+                <option ng-repeat="letter in Controller.Keyboard" value="{{letter.Value}}">{{letter.Value}}</option>
             </select>
             <select ng-model="Controller.Configuration.Right.WheelPosition" ng-change="Controller.loadConfiguration()">
-                <option ng-repeat="letter in Controller.Alphabet" value="{{letter.Value}}">{{letter.Value}}</option>
+                <option ng-repeat="letter in Controller.Keyboard" value="{{letter.Value}}">{{letter.Value}}</option>
             </select>
 
             <h5>Ring Settings</h5>
             <select ng-model="Controller.Configuration.Left.RingSetting" ng-change="Controller.loadConfiguration()">
-                <option ng-repeat="letter in Controller.Alphabet" value="{{letter.Value}}">{{letter.Value}}</option>
+                <option ng-repeat="letter in Controller.Keyboard" value="{{letter.Value}}">{{letter.Value}}</option>
             </select>
             <select ng-model="Controller.Configuration.Middle.RingSetting" ng-change="Controller.loadConfiguration()">
-                <option ng-repeat="letter in Controller.Alphabet" value="{{letter.Value}}">{{letter.Value}}</option>
+                <option ng-repeat="letter in Controller.Keyboard" value="{{letter.Value}}">{{letter.Value}}</option>
             </select>
             <select ng-model="Controller.Configuration.Right.RingSetting" ng-change="Controller.loadConfiguration()">
-                <option ng-repeat="letter in Controller.Alphabet" value="{{letter.Value}}">{{letter.Value}}</option>
+                <option ng-repeat="letter in Controller.Keyboard" value="{{letter.Value}}">{{letter.Value}}</option>
             </select>
         </div>
 
@@ -58,7 +58,7 @@
                 <thead>
                     <tr>
                         <th></th>
-                        <th ng-repeat="letter in Controller.Alphabet" class="{{letter.State}}">{{letter.Value}}</th>
+                        <th ng-repeat="letter in Controller.Keyboard" class="{{letter.State}}">{{letter.Value}}</th>
                     </tr>
                 </thead>
                 <tbody>

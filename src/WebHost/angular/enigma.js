@@ -4,7 +4,7 @@ var EnigmaController = (function () {
         this.httpService = httpService;
         this.scope = scope;
         // Reference Data
-        this.Alphabet = this.toColouredCharacters("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
+        this.Keyboard = this.toColouredCharacters("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
         this.Reflectors = [1, 2];
         this.Rotors = [1, 2, 3, 4, 5, 6, 7, 8];
         // Initial state
@@ -29,6 +29,7 @@ var EnigmaController = (function () {
         this.httpService
             .get("api/enigma/reflector/" + this.Configuration.ReflectorId)
             .success(function (reflector) { return _this.Reflector = _this.toColouredCharacters(reflector); });
+        this.wipeColouredState(this.Keyboard);
     };
     EnigmaController.prototype.findIndexOfColouredCharacter = function (mapping, position) {
         for (var index = 0; index < mapping.length; index++) {
@@ -36,16 +37,17 @@ var EnigmaController = (function () {
                 return index;
         }
     };
+    EnigmaController.prototype.wipeColouredState = function (mapping) { mapping.forEach(function (element) { return element.State = ""; }); };
     EnigmaController.prototype.setUpwardsColour = function (mapping, position) {
-        mapping.forEach(function (element) { return element.State = ""; });
-        var index = this.findIndexOfColouredCharacter(this.Alphabet, position);
+        this.wipeColouredState(mapping);
+        var index = this.findIndexOfColouredCharacter(this.Keyboard, position);
         mapping[index].State = "success";
         return mapping[index].Value;
     };
     EnigmaController.prototype.setInverseColour = function (mapping, position) {
         var index = this.findIndexOfColouredCharacter(mapping, position);
         mapping[index].State = "warning";
-        return this.Alphabet[index].Value;
+        return this.Keyboard[index].Value;
     };
     EnigmaController.prototype.translate = function () {
         var _this = this;
@@ -59,7 +61,7 @@ var EnigmaController = (function () {
             _this.Middle = _this.toColouredCharacters(response.MachineState.Middle.Mapping);
             _this.Left = _this.toColouredCharacters(response.MachineState.Left.Mapping);
             // Set colours
-            _this.setUpwardsColour(_this.Alphabet, _this.NextChar);
+            _this.setUpwardsColour(_this.Keyboard, _this.NextChar);
             var next = _this.setUpwardsColour(_this.Right, _this.NextChar);
             next = _this.setUpwardsColour(_this.Middle, next);
             next = _this.setUpwardsColour(_this.Left, next);
@@ -67,7 +69,7 @@ var EnigmaController = (function () {
             next = _this.setInverseColour(_this.Left, next);
             next = _this.setInverseColour(_this.Middle, next);
             next = _this.setInverseColour(_this.Right, next);
-            _this.setInverseColour(_this.Alphabet, next);
+            _this.setInverseColour(_this.Keyboard, next);
             // Update textboxes
             _this.Input += _this.NextChar;
             _this.NextChar = "";
