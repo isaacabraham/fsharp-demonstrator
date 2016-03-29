@@ -1,4 +1,5 @@
 var enigmaModule = angular.module('enigmaModule', []);
+// Manages the Enigma simulator
 var EnigmaController = (function () {
     function EnigmaController(httpService, scope) {
         this.httpService = httpService;
@@ -14,11 +15,19 @@ var EnigmaController = (function () {
         return data.split('')
             .map(function (c) { return { Value: c, State: "" }; });
     };
-    EnigmaController.prototype.loadConfiguration = function () {
-        var _this = this;
+    EnigmaController.prototype.clearState = function () {
         this.Translation = "";
         this.Input = "";
         this.NextChar = "";
+        this.wipeColouredState(this.Keyboard);
+        this.wipeColouredState(this.Right);
+        this.wipeColouredState(this.Left);
+        this.wipeColouredState(this.Middle);
+        this.wipeColouredState(this.Reflector);
+    };
+    EnigmaController.prototype.loadConfiguration = function () {
+        var _this = this;
+        this.clearState();
         this.httpService
             .post("api/enigma/configure", this.Configuration)
             .success(function (machine) {
@@ -29,7 +38,6 @@ var EnigmaController = (function () {
         this.httpService
             .get("api/enigma/reflector/" + this.Configuration.ReflectorId)
             .success(function (reflector) { return _this.Reflector = _this.toColouredCharacters(reflector); });
-        this.wipeColouredState(this.Keyboard);
     };
     EnigmaController.prototype.findIndexOfColouredCharacter = function (mapping, position) {
         for (var index = 0; index < mapping.length; index++) {
@@ -37,7 +45,11 @@ var EnigmaController = (function () {
                 return index;
         }
     };
-    EnigmaController.prototype.wipeColouredState = function (mapping) { mapping.forEach(function (element) { return element.State = ""; }); };
+    EnigmaController.prototype.wipeColouredState = function (mapping) {
+        if (mapping == null)
+            return;
+        mapping.forEach(function (element) { return element.State = ""; });
+    };
     EnigmaController.prototype.setUpwardsColour = function (mapping, position) {
         this.wipeColouredState(mapping);
         var index = this.findIndexOfColouredCharacter(this.Keyboard, position);
@@ -48,6 +60,33 @@ var EnigmaController = (function () {
         var index = this.findIndexOfColouredCharacter(mapping, position);
         mapping[index].State = "warning";
         return this.Keyboard[index].Value;
+    };
+    EnigmaController.prototype.uploadPlugboard = function (letter) {
+        var fromPosition = this.Plugboard.indexOf(letter);
+        // Deleted the letter
+        if (letter.Value.length == 0) {
+            var characterToBlank = this.Keyboard[fromPosition].Value;
+            var indexToBlank = this.findIndexOfColouredCharacter(this.Plugboard, characterToBlank);
+            this.Plugboard[indexToBlank].Value = null;
+            this.clearState();
+            return;
+        }
+        letter.Value = letter.Value.toUpperCase();
+        var copyIndex = this.findIndexOfColouredCharacter(this.Keyboard, letter.Value);
+        var destination = this.Keyboard[fromPosition].Value;
+        // Same as input - reject.
+        if (destination == letter.Value) {
+            letter.Value = null;
+            return;
+        }
+        // Remove other one
+        this.Plugboard
+            .filter(function (pb) { return pb.Value == letter.Value; })
+            .filter(function (pb) { return pb != letter; })
+            .forEach(function (pb) { return pb.Value = null; });
+        // Update
+        this.Plugboard[copyIndex].Value = destination;
+        this.clearState();
     };
     EnigmaController.prototype.translate = function () {
         var _this = this;
@@ -84,7 +123,10 @@ var EnigmaController = (function () {
             Left: { RingSetting: "A", WheelPosition: "A", RotorId: "1" },
             PlugBoard: []
         };
+        this.Plugboard = this.toColouredCharacters("                          ");
+        this.Plugboard.forEach(function (element) { return element.Value = null; });
         this.loadConfiguration();
+        this.clearState();
     };
     return EnigmaController;
 })();

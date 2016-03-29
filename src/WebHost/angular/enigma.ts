@@ -1,10 +1,11 @@
 var enigmaModule = angular.module('enigmaModule', []);
 
+// Types
 interface EnigmaScope extends ng.IScope { Controller : EnigmaController }
 interface RotorState { RotorId : number; Mapping : string; KnockOns : number[] }
 interface MachineState { Left : RotorState; Middle : RotorState; Right : RotorState }
 interface RotorConfiguration { RotorId : string; WheelPosition : string; RingSetting : string }
-interface PlugboardMapping { From : string; To : string }
+interface PlugboardMapping { From : string; To : string; }
 interface Configuration {
     ReflectorId : string
     Left : RotorConfiguration
@@ -14,6 +15,8 @@ interface Configuration {
 interface TranslationRequest { Character : string; CharacterIndex : number; Configuration : Configuration }
 interface TranslationResponse { Translation : string; MachineState : MachineState }
 interface ColouredCharacter { Value : string; State : string }
+
+// Manages the Enigma simulator
 class EnigmaController {
     // Machine Internals
     Reflector : ColouredCharacter[];
@@ -21,7 +24,7 @@ class EnigmaController {
     Middle : ColouredCharacter[];
     Left : ColouredCharacter[];
     Keyboard : ColouredCharacter[];
-    Steckerboard : string;
+    Plugboard : ColouredCharacter[];
     
     // Reference Data
     Reflectors : number [];
@@ -50,11 +53,19 @@ class EnigmaController {
                    .map(c => <ColouredCharacter> { Value : c, State : "" });
     }
     
-    loadConfiguration() {
+    private clearState() {
         this.Translation = "";
         this.Input = "";
         this.NextChar = "";
-
+        this.wipeColouredState(this.Keyboard);
+        this.wipeColouredState(this.Right);
+        this.wipeColouredState(this.Left);
+        this.wipeColouredState(this.Middle);
+        this.wipeColouredState(this.Reflector);
+    }
+    
+    loadConfiguration() {
+        this.clearState();
         this.httpService
                 .post("api/enigma/configure", this.Configuration)
                 .success((machine: MachineState) => {
@@ -65,8 +76,6 @@ class EnigmaController {
         this.httpService
                 .get("api/enigma/reflector/" + this.Configuration.ReflectorId)
                 .success((reflector: string) => this.Reflector = this.toColouredCharacters(reflector));
-                
-        this.wipeColouredState(this.Keyboard);
     }
     
     private findIndexOfColouredCharacter(mapping:ColouredCharacter[], position:string) {
@@ -75,8 +84,12 @@ class EnigmaController {
                 return index;
         }
     }
-    
-    private wipeColouredState(mapping:ColouredCharacter[]) { mapping.forEach(element => element.State = ""); }
+       
+    private wipeColouredState(mapping:ColouredCharacter[]) {
+        if (mapping == null)
+            return;
+        mapping.forEach(element => element.State = "");
+    }
     
     private setUpwardsColour(mapping:ColouredCharacter[], position:string) {
         this.wipeColouredState(mapping);
@@ -89,6 +102,42 @@ class EnigmaController {
         var index = this.findIndexOfColouredCharacter(mapping, position);
         mapping[index].State = "warning";
         return this.Keyboard[index].Value;
+    }
+    
+    uploadPlugboard(letter:ColouredCharacter) {
+        var fromPosition = this.Plugboard.indexOf(letter);
+        
+        // Deleted the letter
+        if (letter.Value.length == 0)
+        {
+            var characterToBlank = this.Keyboard[fromPosition].Value;
+            var indexToBlank = this.findIndexOfColouredCharacter(this.Plugboard, characterToBlank);
+            this.Plugboard[indexToBlank].Value = null;
+            this.clearState();
+            return;
+        }
+        
+        
+        letter.Value = letter.Value.toUpperCase();
+        var copyIndex = this.findIndexOfColouredCharacter(this.Keyboard, letter.Value);
+        var destination = this.Keyboard[fromPosition].Value;
+        
+        // Same as input - reject.
+        if (destination == letter.Value)
+        {
+            letter.Value = null;
+            return;
+        }
+        
+        // Remove other one
+        this.Plugboard
+            .filter(pb => pb.Value == letter.Value)
+            .filter(pb => pb != letter)
+            .forEach(pb => pb.Value = null);
+        
+        // Update
+        this.Plugboard[copyIndex].Value = destination;
+        this.clearState();
     }
     
     translate() {
@@ -127,8 +176,11 @@ class EnigmaController {
             Middle : <RotorConfiguration> { RingSetting : "A", WheelPosition : "A", RotorId : "2" },
             Left : <RotorConfiguration> { RingSetting : "A", WheelPosition : "A", RotorId : "1" },
             PlugBoard : []
-        }
+        };
+        this.Plugboard = this.toColouredCharacters("                          ");
+        this.Plugboard.forEach(element => element.Value = null);
         this.loadConfiguration();
+        this.clearState();
     }
 }
 
