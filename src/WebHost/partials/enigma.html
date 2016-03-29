@@ -95,8 +95,8 @@
                 <tbody>
                     <tr>
                         <td><strong>Plugboard</strong></td>
-                        <td ng-repeat="mapping in Controller.Plugboard">
-                            <input type="text" maxlength="1" style="width:30px" ng-model="mapping.Value" ng-change="Controller.uploadPlugboard(mapping)"/>
+                        <td ng-repeat="mapping in Controller.Plugboard" class="{{mapping.State}}">
+                            <input type="text" maxlength="1" style="width:30px; color:black" ng-model="mapping.Value" ng-change="Controller.uploadPlugboard(mapping)"/>
                         </td>
                     </tr>
                     <tr>

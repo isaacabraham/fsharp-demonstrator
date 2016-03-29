@@ -23,6 +23,7 @@ var EnigmaController = (function () {
         this.wipeColouredState(this.Right);
         this.wipeColouredState(this.Left);
         this.wipeColouredState(this.Middle);
+        this.wipeColouredState(this.Plugboard);
         this.wipeColouredState(this.Reflector);
     };
     EnigmaController.prototype.loadConfiguration = function () {
@@ -44,6 +45,7 @@ var EnigmaController = (function () {
             if (mapping[index].Value == position)
                 return index;
         }
+        return -1;
     };
     EnigmaController.prototype.wipeColouredState = function (mapping) {
         if (mapping == null)
@@ -53,39 +55,59 @@ var EnigmaController = (function () {
     EnigmaController.prototype.setUpwardsColour = function (mapping, position) {
         this.wipeColouredState(mapping);
         var index = this.findIndexOfColouredCharacter(this.Keyboard, position);
+        if (mapping[index].Value == null)
+            return position;
         mapping[index].State = "success";
         return mapping[index].Value;
     };
     EnigmaController.prototype.setInverseColour = function (mapping, position) {
         var index = this.findIndexOfColouredCharacter(mapping, position);
+        if (index == -1)
+            return position;
         mapping[index].State = "warning";
         return this.Keyboard[index].Value;
     };
-    EnigmaController.prototype.uploadPlugboard = function (letter) {
-        var fromPosition = this.Plugboard.indexOf(letter);
-        // Deleted the letter
-        if (letter.Value.length == 0) {
-            var characterToBlank = this.Keyboard[fromPosition].Value;
-            var indexToBlank = this.findIndexOfColouredCharacter(this.Plugboard, characterToBlank);
-            this.Plugboard[indexToBlank].Value = null;
+    EnigmaController.prototype.uploadPlugboard = function (pbItem) {
+        var _this = this;
+        var plugboardPos = this.Plugboard.indexOf(pbItem);
+        var kbItem = this.Keyboard[plugboardPos];
+        if (pbItem.Value.length == 0) {
+            // First the map
+            var otherItem = this.findIndexOfColouredCharacter(this.Plugboard, kbItem.Value);
+            this.Plugboard[otherItem].Value = null;
+            // Now the config
+            var configsToRemove = this.Configuration.PlugBoard.filter(function (pb) { return pb.From == kbItem.Value || pb.To == kbItem.Value; });
+            configsToRemove.forEach(function (element) {
+                _this.Configuration.PlugBoard.splice(_this.Configuration.PlugBoard.indexOf(element), 1);
+            });
             this.clearState();
             return;
         }
-        letter.Value = letter.Value.toUpperCase();
-        var copyIndex = this.findIndexOfColouredCharacter(this.Keyboard, letter.Value);
-        var destination = this.Keyboard[fromPosition].Value;
+        pbItem.Value = pbItem.Value.toUpperCase();
         // Same as input - reject.
-        if (destination == letter.Value) {
-            letter.Value = null;
+        if (kbItem.Value == pbItem.Value) {
+            pbItem.Value = null;
             return;
         }
-        // Remove other one
+        //2. Remove any duplicates
+        // first config
+        var existingConfigs = this.Configuration.PlugBoard.filter(function (pb) { return pb.From == pbItem.Value || pb.To == pbItem.Value; });
+        existingConfigs.forEach(function (element) {
+            _this.Configuration.PlugBoard.splice(_this.Configuration.PlugBoard.indexOf(element), 1);
+            console.log(_this.Configuration.PlugBoard.length);
+        });
+        // then the map
         this.Plugboard
-            .filter(function (pb) { return pb.Value == letter.Value; })
-            .filter(function (pb) { return pb != letter; })
+            .filter(function (pb) { return pb.Value == pbItem.Value; })
+            .filter(function (pb) { return pb != pbItem; })
             .forEach(function (pb) { return pb.Value = null; });
-        // Update
-        this.Plugboard[copyIndex].Value = destination;
+        //3. Add new item
+        // first config
+        this.Configuration.PlugBoard.push({ From: kbItem.Value, To: pbItem.Value });
+        // then the map
+        var kbPos = this.findIndexOfColouredCharacter(this.Keyboard, pbItem.Value);
+        this.Plugboard[kbPos].Value = kbItem.Value;
+        // Every time you change this, it's a new configuration - start over.
         this.clearState();
     };
     EnigmaController.prototype.translate = function () {
@@ -100,14 +122,16 @@ var EnigmaController = (function () {
             _this.Middle = _this.toColouredCharacters(response.MachineState.Middle.Mapping);
             _this.Left = _this.toColouredCharacters(response.MachineState.Left.Mapping);
             // Set colours
-            _this.setUpwardsColour(_this.Keyboard, _this.NextChar);
-            var next = _this.setUpwardsColour(_this.Right, _this.NextChar);
+            var next = _this.setUpwardsColour(_this.Keyboard, _this.NextChar);
+            next = _this.setUpwardsColour(_this.Plugboard, next);
+            next = _this.setUpwardsColour(_this.Right, next);
             next = _this.setUpwardsColour(_this.Middle, next);
             next = _this.setUpwardsColour(_this.Left, next);
             next = _this.setUpwardsColour(_this.Reflector, next);
             next = _this.setInverseColour(_this.Left, next);
             next = _this.setInverseColour(_this.Middle, next);
             next = _this.setInverseColour(_this.Right, next);
+            next = _this.setInverseColour(_this.Plugboard, next);
             _this.setInverseColour(_this.Keyboard, next);
             // Update textboxes
             _this.Input += _this.NextChar;

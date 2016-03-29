@@ -12,8 +12,6 @@ open FootballDemo
 open FootballDemo.LeagueTable
 open FootballDemo.TeamStats
 open Suave.Successful
-open Suave.Json
-open Newtonsoft.Json
 
 /// Routes for the Football Library.
 let footballApp =
