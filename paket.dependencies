@@ -2,18 +2,23 @@ source https://www.nuget.org/api/v2/
 redirects on
 framework net452
 
+// ASP .NET
 nuget Microsoft.AspNet.WebApi.Owin
 nuget Microsoft.Owin.Host.SystemWeb
 nuget Microsoft.Owin.StaticFiles
 nuget OwinHost
-nuget FSharp.Core
-nuget FSharp.Data
-nuget XPlot.GoogleCharts content:none
+
+// Suave
 nuget Suave
-nuget Microsoft.ApplicationInsights content:none
+
+// Application Insights
 nuget Microsoft.ApplicationInsights.TraceListener content:none
 nuget Microsoft.ApplicationInsights.WindowsServer content:none
-nuget Deedle
 
+// Some data analysis packages
+nuget Deedle
+nuget FSharp.Data
+
+// Enigma code
 github isaacabraham/enigma src/Enigma/Domain.fs
 github isaacabraham/enigma src/Enigma/Logic.fs
