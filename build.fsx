@@ -12,17 +12,16 @@ Environment.CurrentDirectory <- __SOURCE_DIRECTORY__
 
 let solutionFile = "Demonstrator.sln"
 
-let deploymentTemp,
-    deploymentTarget,
-    nextManifestPath,
-    previousManifestPath,
-    kuduSyncCmd =
-        getBuildParam "DEPLOYMENT_TEMP",
-        getBuildParam "DEPLOYMENT_TARGET",
-        getBuildParam "NEXT_MANIFEST_PATH",
-        getBuildParam "PREVIOUS_MANIFEST_PATH",
-        getBuildParam "KUDU_SYNC_CMD"
+let deploymentTemp = getBuildParam "DEPLOYMENT_TEMP"
+let deploymentTarget = getBuildParam "DEPLOYMENT_TARGET"
+let nextManifestPath = getBuildParam "NEXT_MANIFEST_PATH"
+let previousManifestPath = getBuildParam "PREVIOUS_MANIFEST_PATH"
+let kuduSyncCmd = getBuildParam "KUDU_SYNC_CMD"
                      
+Target "Clean" (fun _ ->
+    CreateDir deploymentTemp
+    CleanDir deploymentTemp)
+
 Target "BuildSolution" (fun _ ->
     !! solutionFile
     |> MSBuildRelease deploymentTemp "Rebuild"
@@ -48,7 +47,8 @@ Target "DeployWebsite" (fun _ ->
         TimeSpan.Zero
     |> ignore)
 
-"CopyWebsite"
+"Clean"
+==> "CopyWebsite"
 ==> "BuildSolution"
 ==> "DeployWebJob"
 ==> "DeployWebsite"
