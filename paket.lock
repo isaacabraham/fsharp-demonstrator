@@ -4,10 +4,8 @@ NUGET
   remote: https://www.nuget.org/api/v2
   specs:
     Deedle (1.2.4)
-    FAKE (4.23)
     FSharp.Core (4.0.0.1)
     FSharp.Data (2.2.5)
-    Google.DataTable.Net.Wrapper (3.1.2) - content: none
     Microsoft.ApplicationInsights (2.0) - content: none
     Microsoft.ApplicationInsights.Agent.Intercept (1.2.1) - content: none
     Microsoft.ApplicationInsights.DependencyCollector (2.0) - content: none
@@ -42,14 +40,11 @@ NUGET
       Microsoft.Owin (>= 3.0.1)
       Microsoft.Owin.FileSystems (>= 3.0.1)
       Owin (>= 1.0)
-    Newtonsoft.Json (8.0.3) - content: none
+    Newtonsoft.Json (8.0.3)
     Owin (1.0)
     OwinHost (3.0.1)
     Suave (1.1.1)
       FSharp.Core (>= 3.1.2.5)
-    XPlot.GoogleCharts (1.3.1) - content: none
-      Google.DataTable.Net.Wrapper
-      Newtonsoft.Json
 GITHUB
   remote: isaacabraham/enigma
   specs:

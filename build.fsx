@@ -12,7 +12,7 @@ Environment.CurrentDirectory <- __SOURCE_DIRECTORY__
 
 let solutionFile = "Demonstrator.sln"
 
-let deploymentTemp = getBuildParam "DEPLOYMENT_TEMP"
+let deploymentTemp = getBuildParamOrDefault "DEPLOYMENT_TEMP" @"C:\temp\foo"
 let deploymentTarget = getBuildParam "DEPLOYMENT_TARGET"
 let nextManifestPath = getBuildParam "NEXT_MANIFEST_PATH"
 let previousManifestPath = getBuildParam "PREVIOUS_MANIFEST_PATH"
@@ -28,7 +28,8 @@ Target "BuildSolution" (fun _ ->
         { defaults with
             Verbosity = Some Minimal
             Targets = [ "Rebuild" ]
-            Properties = [ "Configuration", "Release" ] })
+            Properties = [ "Configuration", "Release"
+                           "OutputPath", deploymentTemp ] })
     |> ignore)
 
 Target "CopyWebsite" (fun _ ->
@@ -41,8 +42,9 @@ Target "CopyWebsite" (fun _ ->
     |> FileHelper.CopyFiles deploymentTemp)
 
 Target "DeployWebJob" (fun _ ->
-    @"src\Sample.fsx"     
-    |> FileHelper.CopyFile (deploymentTemp + @"\app_data\jobs\continuous\Sample\"))
+    let webjobPath = deploymentTemp + @"\app_data\jobs\continuous\Sample\"
+    CreateDir webjobPath
+    @"src\Sample.fsx" |> FileHelper.CopyFile webjobPath)
 
 Target "DeployWebsite" (fun _ ->
     ProcessHelper.ExecProcess(fun psi ->

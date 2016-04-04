@@ -154,17 +154,6 @@
   <Choose>
     <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And $(TargetFrameworkVersion) == 'v4.5.2'">
       <ItemGroup>
-        <Reference Include="Google.DataTable.Net.Wrapper">
-          <HintPath>..\..\packages\Google.DataTable.Net.Wrapper\lib\Google.DataTable.Net.Wrapper.dll</HintPath>
-          <Private>True</Private>
-          <Paket>True</Paket>
-        </Reference>
-      </ItemGroup>
-    </When>
-  </Choose>
-  <Choose>
-    <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And $(TargetFrameworkVersion) == 'v4.5.2'">
-      <ItemGroup>
         <Reference Include="System.Net.Http.Formatting">
           <HintPath>..\..\packages\Microsoft.AspNet.WebApi.Client\lib\net45\System.Net.Http.Formatting.dll</HintPath>
           <Private>True</Private>
@@ -192,17 +181,6 @@
       <ItemGroup>
         <Reference Include="Newtonsoft.Json">
           <HintPath>..\..\packages\Newtonsoft.Json\lib\net45\Newtonsoft.Json.dll</HintPath>
-          <Private>True</Private>
-          <Paket>True</Paket>
-        </Reference>
-      </ItemGroup>
-    </When>
-  </Choose>
-  <Choose>
-    <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And $(TargetFrameworkVersion) == 'v4.5.2'">
-      <ItemGroup>
-        <Reference Include="XPlot.GoogleCharts">
-          <HintPath>..\..\packages\XPlot.GoogleCharts\lib\net45\XPlot.GoogleCharts.dll</HintPath>
           <Private>True</Private>
           <Paket>True</Paket>
         </Reference>
