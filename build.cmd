@@ -1,46 +1,5 @@
 @if "%SCM_TRACE_LEVEL%" NEQ "4" @echo off
-
-:: ----------------------
-:: KUDU Deployment Script
-:: Version: 1.0.4
-:: ----------------------
-
-:: Setup
-:: -----
-
-set
-
 setlocal enabledelayedexpansion
-
-SET ARTIFACTS=%~dp0%..\artifacts
-SET DEPLOYMENT_SOURCE=%~dp0%.
-SET DEPLOYMENT_TARGET=wwwroot
-SET NEXT_MANIFEST_PATH=%ARTIFACTS%\manifest
-SET PREVIOUS_MANIFEST_PATH=%ARTIFACTS%\manifest
-
-IF NOT DEFINED KUDU_SYNC_CMD (
-  :: Install kudu sync
-  echo Installing Kudu Sync
-  call npm install kudusync -g --silent
-  IF !ERRORLEVEL! NEQ 0 goto error
-
-  :: Locally just running "kuduSync" would also work
-  SET KUDU_SYNC_CMD=%appdata%\npm\kuduSync.cmd
-)
-
-IF NOT DEFINED DEPLOYMENT_TEMP (
-  SET DEPLOYMENT_TEMP=%temp%\___deployTemp%random%
-  SET CLEAN_LOCAL_DEPLOYMENT_TEMP=true
-)
-
-IF DEFINED CLEAN_LOCAL_DEPLOYMENT_TEMP (
-  IF EXIST "%DEPLOYMENT_TEMP%" rd /s /q "%DEPLOYMENT_TEMP%"
-  mkdir "%DEPLOYMENT_TEMP%"
-)
-
-IF DEFINED MSBUILD_PATH goto MsbuildPathDefined
-SET MSBUILD_PATH=%ProgramFiles(x86)%\MSBuild\14.0\Bin\MSBuild.exe
-:MsbuildPathDefined
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 :: Deployment
