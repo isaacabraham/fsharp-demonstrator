@@ -16,6 +16,7 @@ let deploymentTemp = getBuildParamOrDefault "DEPLOYMENT_TEMP" @"C:\temp\foo"
 let deploymentTarget = getBuildParam "DEPLOYMENT_TARGET"
 let nextManifestPath = getBuildParam "NEXT_MANIFEST_PATH"
 let previousManifestPath = getBuildParam "PREVIOUS_MANIFEST_PATH"
+let appData = getBuildParam "appData"
                      
 Target "Clean" (fun _ ->
     CreateDir deploymentTemp
@@ -47,9 +48,11 @@ Target "DeployWebJob" (fun _ ->
 
 Target "DeployWebsite" (fun _ ->
     ProcessHelper.ExecProcess(fun psi ->
-        psi.FileName <- @"%appdata%\npm\kudusync"
+        psi.FileName <- "kudusync"
+        psi.WorkingDirectory <- appData + @"\npm\"
+        psi.UseShellExecute <- true
         psi.Arguments <- sprintf """-v 50 -f "%s" -t "%s" -n "%s" -p "%s" -i ".git;.hg;.deployment;deploy.cmd""" deploymentTemp deploymentTarget nextManifestPath previousManifestPath)
-        TimeSpan.Zero
+        TimeSpan.MaxValue
     |> ignore)
 
 "Clean"
