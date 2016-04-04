@@ -50,7 +50,7 @@ Target "DeployWebJob" (fun _ ->
 Target "DeployWebsite" (fun _ ->
     let succeeded, output =
         ProcessHelper.ExecProcessRedirected(fun psi ->
-            psi.FileName <- combinePaths kuduPath "kudusync"
+            psi.FileName <- combinePaths kuduPath "kudusync.cmd"
             psi.Arguments <- sprintf """-v 50 -f "%s" -t "%s" -n "%s" -p "%s" -i ".git;.hg;.deployment;deploy.cmd""" deploymentTemp deploymentTarget nextManifestPath previousManifestPath)
             TimeSpan.MaxValue
     output |> Seq.iter (fun cm -> printfn "%O: %s" cm.Timestamp cm.Message)
