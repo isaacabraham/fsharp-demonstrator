@@ -23,8 +23,12 @@ Target "Clean" (fun _ ->
     CleanDir deploymentTemp)
 
 Target "BuildSolution" (fun _ ->
-    !! solutionFile
-    |> MSBuildRelease deploymentTemp "Rebuild"
+    solutionFile
+    |> MSBuildHelper.build (fun defaults ->
+        { defaults with
+            Verbosity = Some Minimal
+            Targets = [ "Rebuild" ]
+            Properties = [ "Configuration", "Release" ] })
     |> ignore)
 
 Target "CopyWebsite" (fun _ ->
