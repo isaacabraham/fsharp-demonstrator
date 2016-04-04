@@ -16,7 +16,8 @@ let deploymentTemp = getBuildParamOrDefault "DEPLOYMENT_TEMP" @"C:\temp\foo"
 let deploymentTarget = getBuildParamOrDefault "DEPLOYMENT_TARGET" @"C:\temp\bar"
 let nextManifestPath = getBuildParamOrDefault "NEXT_MANIFEST_PATH" @"C:\temp\foo"
 let previousManifestPath = getBuildParamOrDefault "PREVIOUS_MANIFEST_PATH" @"C:\temp\foo"
-let kudu = getBuildParam "KUDU_SYNC" |> combinePaths (getBuildParam "KUDU_SELECT_PYTHON_VERSION_CMD" |> directory)
+let kudu = getBuildParam "KUDU_SYNC" |> combinePaths (getBuildParam "GO_WEB_CONFIG_TEMPLATE" |> directory)
+
 
 Target "Clean" (fun _ ->
     CreateDir deploymentTemp
