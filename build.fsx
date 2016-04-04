@@ -16,8 +16,7 @@ let deploymentTemp = getBuildParamOrDefault "DEPLOYMENT_TEMP" @"C:\temp\foo"
 let deploymentTarget = getBuildParamOrDefault "DEPLOYMENT_TARGET" @"C:\temp\bar"
 let nextManifestPath = getBuildParamOrDefault "NEXT_MANIFEST_PATH" @"C:\temp\foo"
 let previousManifestPath = getBuildParamOrDefault "PREVIOUS_MANIFEST_PATH" @"C:\temp\foo"
-let kudu = getBuildParam "KUDU_SYNC" |> combinePaths (getBuildParam "GO_WEB_CONFIG_TEMPLATE" |> directory)
-
+let kuduPath = getBuildParam "GO_WEB_CONFIG_TEMPLATE" |> directory
 
 Target "Clean" (fun _ ->
     CreateDir deploymentTemp
@@ -51,7 +50,7 @@ Target "DeployWebJob" (fun _ ->
 Target "DeployWebsite" (fun _ ->
     let succeeded, output =
         ProcessHelper.ExecProcessRedirected(fun psi ->
-            psi.FileName <- kudu
+            psi.FileName <- combinePaths kuduPath "kudusync"
             psi.Arguments <- sprintf """-v 50 -f "%s" -t "%s" -n "%s" -p "%s" -i ".git;.hg;.deployment;deploy.cmd""" deploymentTemp deploymentTarget nextManifestPath previousManifestPath)
             TimeSpan.MaxValue
     output |> Seq.iter (fun cm -> printfn "%O: %s" cm.Timestamp cm.Message)
