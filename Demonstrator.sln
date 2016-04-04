@@ -24,6 +24,9 @@ EndProject
 Project("{151D2E53-A2C4-4D7D-83FE-D05416EBD58E}") = "ResourceGroup", "src\ResourceGroup\ResourceGroup.deployproj", "{4EBA46A3-7F9E-4F4C-9D50-98E9DA683EBB}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Deployment", "Deployment", "{918DD70D-0D7E-458A-9C4E-E52247514FD4}"
+	ProjectSection(SolutionItems) = preProject
+		build.fsx = build.fsx
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

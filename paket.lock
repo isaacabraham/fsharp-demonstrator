@@ -4,31 +4,32 @@ NUGET
   remote: https://www.nuget.org/api/v2
   specs:
     Deedle (1.2.4)
+    FAKE (4.23)
     FSharp.Core (4.0.0.1)
     FSharp.Data (2.2.5)
     Google.DataTable.Net.Wrapper (3.1.2) - content: none
-    Microsoft.ApplicationInsights (2.0.0) - content: none
+    Microsoft.ApplicationInsights (2.0) - content: none
     Microsoft.ApplicationInsights.Agent.Intercept (1.2.1) - content: none
-    Microsoft.ApplicationInsights.DependencyCollector (2.0.0) - content: none
-      Microsoft.ApplicationInsights (2.0.0)
+    Microsoft.ApplicationInsights.DependencyCollector (2.0) - content: none
+      Microsoft.ApplicationInsights (2.0)
       Microsoft.ApplicationInsights.Agent.Intercept (>= 1.2.1)
-    Microsoft.ApplicationInsights.PerfCounterCollector (2.0.0) - content: none
-      Microsoft.ApplicationInsights (2.0.0)
+    Microsoft.ApplicationInsights.PerfCounterCollector (2.0) - content: none
+      Microsoft.ApplicationInsights (2.0)
     Microsoft.ApplicationInsights.TraceListener (1.2.6) - content: none
       Microsoft.ApplicationInsights (>= 1.2.3)
-    Microsoft.ApplicationInsights.WindowsServer (2.0.0) - content: none
-      Microsoft.ApplicationInsights (2.0.0)
-      Microsoft.ApplicationInsights.DependencyCollector (>= 2.0.0)
-      Microsoft.ApplicationInsights.PerfCounterCollector (>= 2.0.0)
-      Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel (2.0.0)
-    Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel (2.0.0) - content: none
-      Microsoft.ApplicationInsights (2.0.0)
+    Microsoft.ApplicationInsights.WindowsServer (2.0) - content: none
+      Microsoft.ApplicationInsights (2.0)
+      Microsoft.ApplicationInsights.DependencyCollector (>= 2.0)
+      Microsoft.ApplicationInsights.PerfCounterCollector (>= 2.0)
+      Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel (2.0)
+    Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel (2.0) - content: none
+      Microsoft.ApplicationInsights (2.0)
     Microsoft.AspNet.WebApi.Client (5.2.3)
       Newtonsoft.Json (>= 6.0.4)
     Microsoft.AspNet.WebApi.Core (5.2.3)
       Microsoft.AspNet.WebApi.Client (>= 5.2.3)
     Microsoft.AspNet.WebApi.Owin (5.2.3)
-      Microsoft.AspNet.WebApi.Core (>= 5.2.3 < 5.3.0)
+      Microsoft.AspNet.WebApi.Core (>= 5.2.3 < 5.3)
       Microsoft.Owin (>= 2.0.2)
       Owin (>= 1.0)
     Microsoft.Owin (3.0.1)

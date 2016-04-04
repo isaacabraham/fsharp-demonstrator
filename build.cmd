@@ -8,6 +8,7 @@ setlocal enabledelayedexpansion
 :: Restore NuGet packages
 .paket\paket.bootstrapper.exe
 .paket\paket.exe restore
+packages\FAKE\tools\FAKE.exe build.fsx
 
 :: Copy static site content over
 xcopy src\webhost "%DEPLOYMENT_TEMP%\" /Y /E /Q /EXCLUDE:excludes.txt

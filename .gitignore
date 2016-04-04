@@ -31,3 +31,4 @@ src/packages/*
 packages/
 output/
 paket-files/
+.fake/
