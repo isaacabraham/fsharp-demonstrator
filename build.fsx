@@ -13,13 +13,14 @@ Environment.CurrentDirectory <- __SOURCE_DIRECTORY__
 let solutionFile = "Demonstrator.sln"
 
 let deploymentTemp = getBuildParamOrDefault "DEPLOYMENT_TEMP" @"C:\temp\foo"
-let deploymentTarget = getBuildParam "DEPLOYMENT_TARGET"
-let nextManifestPath = getBuildParam "NEXT_MANIFEST_PATH"
-let previousManifestPath = getBuildParam "PREVIOUS_MANIFEST_PATH"
+let deploymentTarget = getBuildParamOrDefault "DEPLOYMENT_TARGET" @"C:\temp\bar"
+let nextManifestPath = getBuildParamOrDefault "NEXT_MANIFEST_PATH" @"C:\temp\foo"
+let previousManifestPath = getBuildParamOrDefault "PREVIOUS_MANIFEST_PATH" @"C:\temp\foo"
 let appData = getBuildParam "appData"
                      
 Target "Clean" (fun _ ->
     CreateDir deploymentTemp
+    CreateDir deploymentTarget
     CleanDir deploymentTemp)
 
 Target "BuildSolution" (fun _ ->
@@ -47,18 +48,19 @@ Target "DeployWebJob" (fun _ ->
     @"src\Sample.fsx" |> FileHelper.CopyFile webjobPath)
 
 Target "DeployWebsite" (fun _ ->
-    ProcessHelper.ExecProcess(fun psi ->
-        psi.FileName <- "kudusync"
-        psi.WorkingDirectory <- appData + @"\npm\"
-        psi.UseShellExecute <- true
-        psi.Arguments <- sprintf """-v 50 -f "%s" -t "%s" -n "%s" -p "%s" -i ".git;.hg;.deployment;deploy.cmd""" deploymentTemp deploymentTarget nextManifestPath previousManifestPath)
-        TimeSpan.MaxValue
-    |> ignore)
+    let succeeded, output =
+        ProcessHelper.ExecProcessRedirected(fun psi ->
+            psi.FileName <- appData + @"\npm\kudusync.cmd"
+            psi.Arguments <- sprintf """-v 50 -f "%s" -t "%s" -n "%s" -p "%s" -i ".git;.hg;.deployment;deploy.cmd""" deploymentTemp deploymentTarget nextManifestPath previousManifestPath)
+            TimeSpan.MaxValue
+    output |> Seq.iter (fun cm -> printfn "%O: %s" cm.Timestamp cm.Message)
+    if not succeeded then failwith "Error occurred during Kudu deployment.")
 
 "Clean"
 ==> "CopyWebsite"
 ==> "BuildSolution"
 ==> "DeployWebJob"
 ==> "DeployWebsite"
+
 
 RunTargetOrDefault "DeployWebsite"
