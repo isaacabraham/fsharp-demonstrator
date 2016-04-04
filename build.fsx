@@ -16,7 +16,6 @@ let deploymentTemp = getBuildParamOrDefault "DEPLOYMENT_TEMP" @"C:\temp\foo"
 let deploymentTarget = getBuildParam "DEPLOYMENT_TARGET"
 let nextManifestPath = getBuildParam "NEXT_MANIFEST_PATH"
 let previousManifestPath = getBuildParam "PREVIOUS_MANIFEST_PATH"
-let kuduSyncCmd = getBuildParam "KUDU_SYNC_CMD"
                      
 Target "Clean" (fun _ ->
     CreateDir deploymentTemp
@@ -48,7 +47,7 @@ Target "DeployWebJob" (fun _ ->
 
 Target "DeployWebsite" (fun _ ->
     ProcessHelper.ExecProcess(fun psi ->
-        psi.FileName <- kuduSyncCmd
+        psi.FileName <- @"%appdata%\npm\kudusync"
         psi.Arguments <- sprintf """-v 50 -f "%s" -t "%s" -n "%s" -p "%s" -i ".git;.hg;.deployment;deploy.cmd""" deploymentTemp deploymentTarget nextManifestPath previousManifestPath)
         TimeSpan.Zero
     |> ignore)
