@@ -8,6 +8,8 @@
 :: Setup
 :: -----
 
+set
+
 setlocal enabledelayedexpansion
 
 SET ARTIFACTS=%~dp0%..\artifacts
