@@ -3,6 +3,7 @@
 
 open Fake
 open System
+open System.IO
 
 Environment.CurrentDirectory <- __SOURCE_DIRECTORY__
 let solutionFile = "Demonstrator.sln"
