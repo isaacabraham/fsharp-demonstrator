@@ -61,7 +61,7 @@ Target "BuildSolution" (fun _ ->
     |> ignore)
 
 Target "StageWebsiteAssets" (fun _ ->
-    !! @"src\webhost\**"
+    !! @"src\webhost\**\**"
     -- @"src\webhost\typings"
     -- @"src\webhost\**\*.fs*"
     -- @"src\webhost\**\*.config"

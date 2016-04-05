@@ -1,5 +1,0 @@
-.fs
-.config
-.references
-typings/
-tsconfig.json
