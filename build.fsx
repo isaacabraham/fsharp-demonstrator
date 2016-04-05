@@ -30,7 +30,11 @@ module Kudu =
         CleanDir deploymentTemp
 
     /// Stages a set of files into the temp deployment area, ready from deployment into the website.
-    let stageWebsite files = files |> FileHelper.CopyFiles deploymentTemp
+    let stageWebsite from excludes =
+        let copied = FileHelper.CopyRecursive from deploymentTemp true
+        copied
+        |> Seq.filter(fun file -> excludes |> Seq.exists(fun e -> e file))
+        |> Seq.iter File.Delete
 
     /// Stages a webjob into the temp deployment area, ready for deployment into the website as a webjob.
     let stageWebJob webJobType webjobName files =
@@ -61,13 +65,14 @@ Target "BuildSolution" (fun _ ->
     |> ignore)
 
 Target "StageWebsiteAssets" (fun _ ->
-    !! @"src\webhost\**\**"
-    -- @"src\webhost\typings"
-    -- @"src\webhost\**\*.fs*"
-    -- @"src\webhost\**\*.config"
-    -- @"src\webhost\**\*.references"
-    -- @"src\webhost\tsconfig.json"
-    |> Kudu.stageWebsite)
+    let p = Path.GetFullPath @"src\webhost"
+    let exclusions =
+        [ "typings"
+          ".fs"
+          ".config"
+          ".references"
+          "tsconfig.json" ] |> Seq.map(fun path (f:string) -> f.Contains path)
+    Kudu.stageWebsite p exclusions)
 
 Target "StageWebJob" (fun _ ->
     [ @"src\Sample.fsx" ]
