@@ -9,15 +9,15 @@ let solutionFile = "Demonstrator.sln"
 
 module Kudu =
     /// Location where staged outputs should go before before synced up to the site.
-    let deploymentTemp = getBuildParam "DEPLOYMENT_TEMP"
+    let deploymentTemp = getBuildParamOrDefault "DEPLOYMENT_TEMP" (Path.GetTempPath() + "kudutemp")
     /// Location where synced outputs should be deployed to.
-    let deploymentTarget = getBuildParam "DEPLOYMENT_TARGET"
+    let deploymentTarget = getBuildParamOrDefault "DEPLOYMENT_TARGET" (Path.GetTempPath() + "kudutarget")
     /// Used by KuduSync for tracking and diffing deployments.
     let nextManifestPath = getBuildParam "NEXT_MANIFEST_PATH"
     /// Used by KuduSync for tracking and diffing deployments.
     let previousManifestPath = getBuildParam "PREVIOUS_MANIFEST_PATH"
     /// The path to the KuduSync application.
-    let kuduPath = getBuildParam "GO_WEB_CONFIG_TEMPLATE" |> directory
+    let kuduPath = (getBuildParamOrDefault "GO_WEB_CONFIG_TEMPLATE" ".") |> directory
 
     /// The different types of web jobs.
     type WebJobType = Scheduled | Continuous
@@ -54,7 +54,7 @@ Target "BuildSolution" (fun _ ->
     |> MSBuildHelper.build (fun defaults ->
         { defaults with
             Verbosity = Some Minimal
-            Targets = [ "Rebuild" ]
+            Targets = [ "Build" ]
             Properties = [ "Configuration", "Release"
                            "OutputPath", Kudu.deploymentTemp ] })
     |> ignore)
