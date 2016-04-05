@@ -80,4 +80,4 @@ Target "Deploy" Kudu.kuduSync
 ==> "Deploy"
 
 
-RunTargetOrDefault "DeployWebsite"
+RunTargetOrDefault "Deploy"
