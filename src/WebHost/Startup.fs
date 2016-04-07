@@ -1,4 +1,4 @@
-﻿namespace FootballDemo
+﻿namespace WebApiHost
 
 open System.Web.Http
 open Newtonsoft.Json.Serialization
@@ -14,6 +14,7 @@ type Startup() =
             let config = new HttpConfiguration()
             config.Formatters.Remove config.Formatters.XmlFormatter |> ignore
             config.Formatters.JsonFormatter.SerializerSettings.ContractResolver <- DefaultContractResolver()
+            config.MapHttpAttributeRoutes()
             config.Routes.MapHttpRoute("DefaultApi", "api/{controller}/{id}", { id = RouteParameter.Optional }) |> ignore
             config
     
