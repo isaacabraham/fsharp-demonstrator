@@ -4,6 +4,7 @@ open Suave
 open Suave.Files
 open Suave.Filters
 open Suave.Operators
+open Suave.Successful
 open Suave.Writers
 open System
 
@@ -12,7 +13,6 @@ open FootballDemo.LeagueTable
 open FootballDemo.TeamStats
 open Enigma
 open SudokuSolver
-open Suave.Successful
 
 /// Routes for the Football app.
 let footballApp =
