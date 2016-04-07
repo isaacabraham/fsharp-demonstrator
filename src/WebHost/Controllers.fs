@@ -9,4 +9,3 @@ type LeagueTableController() =
 type TeamController() =
     inherit ApiController()
     member __.Get id = TeamStats.loadStatsForTeam id |> Async.StartAsTask
-

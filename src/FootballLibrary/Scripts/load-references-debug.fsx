@@ -10,3 +10,4 @@
 #r "../../../packages/Newtonsoft.Json/lib/net45/Newtonsoft.Json.dll"
 #r "../../../packages/Microsoft.AspNet.WebApi.Client/lib/net45/System.Net.Http.Formatting.dll"
 #r "../../../packages/Microsoft.AspNet.WebApi.Core/lib/net45/System.Web.Http.dll"
+#r "../../../packages/Streams/lib/net45/Streams.dll"

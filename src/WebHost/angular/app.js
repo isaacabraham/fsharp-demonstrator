@@ -1,4 +1,4 @@
-var fsharpDemoApp = angular.module('fsharpDemoApp', ['ngRoute', 'footballModule', 'enigmaModule']);
+var fsharpDemoApp = angular.module('fsharpDemoApp', ['ngRoute', 'footballModule', 'enigmaModule', 'sudokuModule']);
 fsharpDemoApp.config(['$routeProvider',
     function ($routeProvider) {
         $routeProvider.
@@ -9,6 +9,10 @@ fsharpDemoApp.config(['$routeProvider',
             when('/enigma', {
             templateUrl: 'partials/enigma.html',
             controller: 'EnigmaCtrl'
+        }).
+            when('/sudoku', {
+            templateUrl: 'partials/sudoku.html',
+            controller: 'SudokuCtrl'
         });
     }]);
 //# sourceMappingURL=app.js.map

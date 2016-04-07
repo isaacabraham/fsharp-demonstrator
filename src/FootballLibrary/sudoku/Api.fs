@@ -4,7 +4,7 @@ open Nessos.Streams
 open DomainModel
 open Soduku
 
-let processData request =
+let solve request =
     request.Data
     |> Stream.ofArray
     |> Stream.collect (Seq.collect (Seq.collect id) >> Stream.ofSeq)

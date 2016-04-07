@@ -2,3 +2,9 @@ Microsoft.AspNet.WebApi.Core
 FSharp.Core
 FSharp.Data
 Deedle
+
+File:Domain.fs enigma
+File:Logic.fs enigma
+File:Contracts.fs sudoku
+File:Sudoku.fs sudoku
+File:DomainModel.fs sudoku

@@ -9,7 +9,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".paket", ".paket", "{0C5F06
 		paket.lock = paket.lock
 	EndProjectSection
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "FootballLibrary", "src\FootballLibrary\FootballLibrary.fsproj", "{1A4610CE-D30D-46E1-9D5E-0172965399BC}"
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Applications", "src\FootballLibrary\Applications.fsproj", "{1A4610CE-D30D-46E1-9D5E-0172965399BC}"
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "SuaveHost", "src\SuaveHost\SuaveHost.fsproj", "{8F061178-EE0A-4287-B593-2B7DF78A47DF}"
 EndProject

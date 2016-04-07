@@ -76,8 +76,8 @@
     <Reference Include="System.Xml.Linq.dll" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\FootballLibrary\FootballLibrary.fsproj">
-      <Name>FootballLibrary</Name>
+    <ProjectReference Include="..\FootballLibrary\Applications.fsproj">
+      <Name>Applications</Name>
       <Project>{1a4610ce-d30d-46e1-9d5e-0172965399bc}</Project>
       <Private>True</Private>
     </ProjectReference>

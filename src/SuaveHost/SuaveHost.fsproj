@@ -65,28 +65,6 @@
   </Target>
   -->
   <ItemGroup>
-    <Compile Include="..\..\paket-files\isaacabraham\enigma\src\Enigma\Domain.fs">
-      <Paket>True</Paket>
-      <Link>applications/enigma/Domain.fs</Link>
-    </Compile>
-    <Compile Include="..\..\paket-files\isaacabraham\enigma\src\Enigma\Logic.fs">
-      <Paket>True</Paket>
-      <Link>applications/enigma/Logic.fs</Link>
-    </Compile>
-    <Compile Include="applications\enigma\Api.fs" />
-    <Compile Include="..\..\paket-files\isaacabraham\sudoku-solver\src\Api\Contracts.fs">
-      <Paket>True</Paket>
-      <Link>applications/sudoku/Contracts.fs</Link>
-    </Compile>
-    <Compile Include="..\..\paket-files\isaacabraham\sudoku-solver\src\Api\Sudoku.fs">
-      <Paket>True</Paket>
-      <Link>applications/sudoku/Sudoku.fs</Link>
-    </Compile>
-    <Compile Include="..\..\paket-files\isaacabraham\sudoku-solver\src\Api\DomainModel.fs">
-      <Paket>True</Paket>
-      <Link>applications/sudoku/DomainModel.fs</Link>
-    </Compile>
-    <Compile Include="applications\sudoku\Api.fs" />
     <Compile Include="AssemblyInfo.fs" />
     <Compile Include="Helpers.fs" />
     <Compile Include="AppInsightsHelpers.fs" />
@@ -104,15 +82,14 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="mscorlib" />
-    <Reference Include="Streams">
-      <HintPath>..\..\packages\Streams\lib\net45\Streams.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Numerics" />
-    <ProjectReference Include="..\FootballLibrary\FootballLibrary.fsproj">
-      <Name>FootballLibrary</Name>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\FootballLibrary\Applications.fsproj">
+      <Name>Applications</Name>
       <Project>{1a4610ce-d30d-46e1-9d5e-0172965399bc}</Project>
       <Private>True</Private>
     </ProjectReference>

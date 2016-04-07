@@ -7,13 +7,14 @@ open Suave.Operators
 open Suave.Writers
 open System
 
-
 open FootballDemo
 open FootballDemo.LeagueTable
 open FootballDemo.TeamStats
+open Enigma
+open SudokuSolver
 open Suave.Successful
 
-/// Routes for the Football Library.
+/// Routes for the Football app.
 let footballApp =
     GET >=> choose [
         pathScan "/api/leaguetable/%d" (enum<FootballMonth> >> getLeague >> toJsonAsync)
@@ -23,14 +24,18 @@ let footballApp =
 let enigmaApp =
     choose [
         POST >=> choose [
-            path "/api/enigma/translate" >=> Helpers.mapJson Enigma.Api.performTranslation
-            path "/api/enigma/configure" >=> Helpers.mapJson Enigma.Api.configureEnigma
+            path "/api/enigma/translate" >=> Helpers.mapJson Api.performTranslation
+            path "/api/enigma/configure" >=> Helpers.mapJson Api.configureEnigma
         ]
         GET >=> choose [
-            pathScan "/api/enigma/reflector/%d" (Enigma.Api.getReflectorResponse >> optionallyWith OK)
-            pathScan "/api/enigma/rotor/%d" (Enigma.Api.getRotorResponse >> optionallyWith Helpers.toJson)
+            pathScan "/api/enigma/reflector/%d" (Api.getReflectorResponse >> optionallyWith OK)
+            pathScan "/api/enigma/rotor/%d" (Api.getRotorResponse >> optionallyWith Helpers.toJson)
         ]
     ]
+
+/// Routes for the Sudoku app.
+let sudokuApp =
+    POST >=> path "/api/sudoku/solve" >=> Helpers.mapJson Api.solve
 
 /// Routes for non-application specific features.
 let basicApp staticFileRoot =

@@ -15,6 +15,7 @@ let buildApp staticFilesPath : WebPart =
     choose [
         footballApp
         enigmaApp
+        sudokuApp
         basicApp staticFileRoot
         pageNotFound staticFileRoot
     ] >=> log logger logFormat

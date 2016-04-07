@@ -9,11 +9,11 @@
     <ProjectTypeGuids>{F2A71F9B-5D33-465A-A702-920D77279786}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <RootNamespace>Library1</RootNamespace>
-    <AssemblyName>Library1</AssemblyName>
+    <AssemblyName>Applications</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <TargetFSharpCoreVersion>4.4.0.0</TargetFSharpCoreVersion>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-    <Name>FootballLibrary</Name>
+    <Name>Applications</Name>
     <UseIISExpress>true</UseIISExpress>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -101,16 +101,41 @@
   <ItemGroup>
     <Compile Include="AssemblyInfo.fs" />
     <Compile Include="Helpers.fs" />
-    <Compile Include="Contracts.fs" />
-    <Compile Include="LeagueTable.fs" />
-    <Compile Include="TeamStats.fs" />
+    <Compile Include="..\..\paket-files\isaacabraham\enigma\src\Enigma\Domain.fs">
+      <Paket>True</Paket>
+      <Link>enigma/Domain.fs</Link>
+    </Compile>
+    <Compile Include="..\..\paket-files\isaacabraham\enigma\src\Enigma\Logic.fs">
+      <Paket>True</Paket>
+      <Link>enigma/Logic.fs</Link>
+    </Compile>
+    <Compile Include="..\..\paket-files\isaacabraham\sudoku-solver\src\Api\Contracts.fs">
+      <Paket>True</Paket>
+      <Link>sudoku/Contracts.fs</Link>
+    </Compile>
+    <Compile Include="..\..\paket-files\isaacabraham\sudoku-solver\src\Api\Sudoku.fs">
+      <Paket>True</Paket>
+      <Link>sudoku/Sudoku.fs</Link>
+    </Compile>
+    <Compile Include="..\..\paket-files\isaacabraham\sudoku-solver\src\Api\DomainModel.fs">
+      <Paket>True</Paket>
+      <Link>sudoku/DomainModel.fs</Link>
+    </Compile>
+    <Compile Include="footballLeague\DataContracts.fs" />
+    <Compile Include="footballLeague\LeagueTable.fs" />
+    <Compile Include="footballLeague\TeamStats.fs" />
     <None Include="Scripts\load-references-debug.fsx" />
     <None Include="Scripts\load-project-debug.fsx" />
     <None Include="Scripts\Scratchpad.fsx" />
     <None Include="paket.references" />
+    <Compile Include="enigma\Api.fs" />
+    <Compile Include="sudoku\Api.fs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="mscorlib" />
+    <Reference Include="Streams">
+      <HintPath>..\..\packages\Streams\lib\net45\Streams.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Numerics" />

@@ -1,0 +1,158 @@
+﻿p.selectTitle {
+    margin: 5px 5px 0 10px;
+    padding: 0 0 0 0;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: left;
+}
+
+.sudokuSelect {
+    position: relative;
+    float: right;
+    right: 10px;
+    width: 100px;
+}
+
+.sudokuButtons {
+    position: relative;
+    padding-left: 5px;
+    float: left;
+    width: 234px;
+}
+
+.functionButton {
+    margin-right: 28px;
+    margin-bottom: 10px;
+    height: 25px;
+    width: 85px;
+}
+
+p.selectTitle {
+    margin: 5px 5px 0 10px;
+    padding: 0 0 0 0;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: left;
+}
+
+.sudokuCheckBox {
+    margin: 5px 5px 20px 5px;
+    position: relative;
+    width: 110px;
+    text-align: left;
+    float: left;
+}
+
+.penPad {
+    float: left;
+    width: 80px;
+    height: 60px;
+    margin-right: 20px;
+}
+
+.sudokuLinks {
+    float: left;
+    width: 200px;
+    height: 100px;
+    margin-right: 20px;
+    text-align: left;
+}
+
+.sudokublock {
+    margin: 0 0 0 0;
+    height: 120px;
+    border-collapse: collapse;
+    background-color: #666666;
+}
+
+.sudokucell, .sudokucelldark {
+    border: 1px solid #666666;
+    padding: 0;
+    width: 43px;
+    height: 43px;
+    background-color: #FFFFFF;
+}
+
+.sudokumaintable {
+    width: 396px;
+    height: 396px;
+    border: 1px solid #666666;
+    padding: 0 0 0 0;
+    margin: 0 0 0 0;
+}
+
+.sudokumaintd {
+    padding: 0 0 0 0;
+    margin: 0 0 0 0;
+    width: 130px;
+    height: 90px;
+}
+
+button {
+    font-family:sans-serif;
+}
+
+.sudokuinput, .sudokuinputdark {
+    font-family: sans-serif;
+    color: #000000;
+    text-align: center;
+    font-size: 30px;
+    border: 0px;
+    padding: 0 0 0 0;
+    margin: 0 0 0 0;
+    width: 43px;
+    height: 43px;
+}
+
+.sudokuinputdark, .sudokucelldark {
+    background-color: #e0e0e0;
+}
+
+.valueOptions {
+    font-size: 12px !important;
+}
+
+.ctrButton {
+    width: 135px;
+    text-align: center;
+}
+
+.pen {
+    font-size: 1.0em;
+    position: absolute;
+    padding-left: 0.1em;
+    color: #1C9AE9;
+}
+
+.penButton {
+    font-size: 0.9em;
+    padding-left: 0.1em;
+    width: 20px;
+    height: 20px;
+}
+
+.errorCell {
+    background-color: #FF0000;
+}
+
+.givenCell {
+    color: #666666;
+    cursor: default;
+}
+
+.entryCell {
+    color: #1C9AE9;
+    cursor: text;
+}
+
+.selectedCell {
+    background-color: #FFE0E0;
+}
+
+#time {
+    font-size: 12px;
+    float: right;
+    text-align: right;
+    width: 400px;
+    margin-bottom: 10px;
+}
