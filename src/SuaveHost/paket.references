@@ -3,5 +3,8 @@ Newtonsoft.Json
 FSharp.Data
 Microsoft.ApplicationInsights.TraceListener
 Microsoft.ApplicationInsights.WindowsServer
-File:Domain.fs
-File:Logic.fs
+File:Domain.fs applications\enigma
+File:Logic.fs applications\enigma
+File:Contracts.fs applications\sudoku
+File:Sudoku.fs applications\sudoku
+File:DomainModel.fs applications\sudoku

@@ -43,10 +43,19 @@ NUGET
     Newtonsoft.Json (8.0.3)
     Owin (1.0)
     OwinHost (3.0.1)
-    Suave (1.1.1)
+    Streams (0.4.1)
+    Suave (1.1.2)
       FSharp.Core (>= 3.1.2.5)
 GITHUB
   remote: isaacabraham/enigma
   specs:
     src/Enigma/Domain.fs (a5842b77595106f33e111be8b19cdba44338ff36)
     src/Enigma/Logic.fs (a5842b77595106f33e111be8b19cdba44338ff36)
+  remote: isaacabraham/sudoku-solver
+  specs:
+    src/Api/Contracts.fs (1407e6bb7ac27e97c424a547c0156c866227134a)
+      Streams
+    src/Api/DomainModel.fs (1407e6bb7ac27e97c424a547c0156c866227134a)
+      Streams
+    src/Api/Sudoku.fs (1407e6bb7ac27e97c424a547c0156c866227134a)
+      Streams

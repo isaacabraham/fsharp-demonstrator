@@ -67,16 +67,29 @@
   <ItemGroup>
     <Compile Include="..\..\paket-files\isaacabraham\enigma\src\Enigma\Domain.fs">
       <Paket>True</Paket>
-      <Link>paket-files/Domain.fs</Link>
+      <Link>applications/enigma/Domain.fs</Link>
     </Compile>
     <Compile Include="..\..\paket-files\isaacabraham\enigma\src\Enigma\Logic.fs">
       <Paket>True</Paket>
-      <Link>paket-files/Logic.fs</Link>
+      <Link>applications/enigma/Logic.fs</Link>
     </Compile>
+    <Compile Include="applications\enigma\Api.fs" />
+    <Compile Include="..\..\paket-files\isaacabraham\sudoku-solver\src\Api\Contracts.fs">
+      <Paket>True</Paket>
+      <Link>applications/sudoku/Contracts.fs</Link>
+    </Compile>
+    <Compile Include="..\..\paket-files\isaacabraham\sudoku-solver\src\Api\Sudoku.fs">
+      <Paket>True</Paket>
+      <Link>applications/sudoku/Sudoku.fs</Link>
+    </Compile>
+    <Compile Include="..\..\paket-files\isaacabraham\sudoku-solver\src\Api\DomainModel.fs">
+      <Paket>True</Paket>
+      <Link>applications/sudoku/DomainModel.fs</Link>
+    </Compile>
+    <Compile Include="applications\sudoku\Api.fs" />
     <Compile Include="AssemblyInfo.fs" />
     <Compile Include="Helpers.fs" />
     <Compile Include="AppInsightsHelpers.fs" />
-    <Compile Include="EnigmaApi.fs" />
     <Compile Include="Apps.fs" />
     <Compile Include="Program.fs" />
     <None Include="Scripts\ScratchPadEngima.fsx" />
@@ -91,8 +104,8 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="mscorlib" />
-    <Reference Include="FSharp.Core, Version=$(TargetFSharpCoreVersion), Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-      <Private>True</Private>
+    <Reference Include="Streams">
+      <HintPath>..\..\packages\Streams\lib\net45\Streams.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
@@ -104,6 +117,17 @@
       <Private>True</Private>
     </ProjectReference>
   </ItemGroup>
+  <Choose>
+    <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And $(TargetFrameworkVersion) == 'v4.5.2'">
+      <ItemGroup>
+        <Reference Include="FSharp.Core">
+          <HintPath>..\..\packages\FSharp.Core\lib\net40\FSharp.Core.dll</HintPath>
+          <Private>True</Private>
+          <Paket>True</Paket>
+        </Reference>
+      </ItemGroup>
+    </When>
+  </Choose>
   <Choose>
     <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And $(TargetFrameworkVersion) == 'v4.5.2'">
       <ItemGroup>

@@ -19,17 +19,16 @@ let footballApp =
         pathScan "/api/leaguetable/%d" (enum<FootballMonth> >> getLeague >> toJsonAsync)
         pathScan "/api/team/%s" (Uri.UnescapeDataString >> loadStatsForTeam >> toJsonAsync) ]
 
-
 /// Routes for the Enigma app.
 let enigmaApp =
     choose [
         POST >=> choose [
-            path "/api/enigma/translate" >=> Helpers.mapJson EnigmaApi.performTranslation
-            path "/api/enigma/configure" >=> Helpers.mapJson EnigmaApi.configureEnigma
+            path "/api/enigma/translate" >=> Helpers.mapJson Enigma.Api.performTranslation
+            path "/api/enigma/configure" >=> Helpers.mapJson Enigma.Api.configureEnigma
         ]
         GET >=> choose [
-            pathScan "/api/enigma/reflector/%d" (EnigmaApi.getReflectorResponse >> optionallyWith OK)
-            pathScan "/api/enigma/rotor/%d" (EnigmaApi.getRotorResponse >> optionallyWith Helpers.toJson)
+            pathScan "/api/enigma/reflector/%d" (Enigma.Api.getReflectorResponse >> optionallyWith OK)
+            pathScan "/api/enigma/rotor/%d" (Enigma.Api.getRotorResponse >> optionallyWith Helpers.toJson)
         ]
     ]
 

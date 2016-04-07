@@ -1,4 +1,4 @@
-﻿module SuaveHost.EnigmaApi
+﻿module Enigma.Api
 
 type RotorConfiguration = { RotorId : int; WheelPosition : char; RingSetting : char }
 type PlugboardMapping = { From : char; To : char }
