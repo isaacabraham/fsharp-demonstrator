@@ -109,6 +109,7 @@
       <Paket>True</Paket>
       <Link>enigma/Logic.fs</Link>
     </Compile>
+    <Compile Include="enigma\Api.fs" />
     <Compile Include="..\..\paket-files\isaacabraham\sudoku-solver\src\Api\Contracts.fs">
       <Paket>True</Paket>
       <Link>sudoku/Contracts.fs</Link>
@@ -121,6 +122,7 @@
       <Paket>True</Paket>
       <Link>sudoku/DomainModel.fs</Link>
     </Compile>
+    <Compile Include="sudoku\Api.fs" />
     <Compile Include="footballLeague\DataContracts.fs" />
     <Compile Include="footballLeague\LeagueTable.fs" />
     <Compile Include="footballLeague\TeamStats.fs" />
@@ -128,8 +130,6 @@
     <None Include="Scripts\load-project-debug.fsx" />
     <None Include="Scripts\Scratchpad.fsx" />
     <None Include="paket.references" />
-    <Compile Include="enigma\Api.fs" />
-    <Compile Include="sudoku\Api.fs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="mscorlib" />
