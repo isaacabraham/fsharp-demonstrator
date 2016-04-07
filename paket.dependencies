@@ -8,6 +8,8 @@ nuget Microsoft.Owin.Host.SystemWeb
 nuget Microsoft.Owin.StaticFiles
 nuget OwinHost
 
+nuget FAKE
+
 // Suave
 nuget Suave
 
@@ -15,11 +17,11 @@ nuget Suave
 nuget Microsoft.ApplicationInsights.TraceListener content:none
 nuget Microsoft.ApplicationInsights.WindowsServer content:none
 
-// Some data analysis packages
+// Football
 nuget Deedle
 nuget FSharp.Data
 
-// Enigma code
+// Enigma
 github isaacabraham/enigma src/Enigma/Domain.fs
 github isaacabraham/enigma src/Enigma/Logic.fs
 

@@ -4,6 +4,7 @@ NUGET
   remote: https://www.nuget.org/api/v2
   specs:
     Deedle (1.2.4)
+    FAKE (4.23.4)
     FSharp.Core (4.0.0.1)
     FSharp.Data (2.2.5)
     Microsoft.ApplicationInsights (2.0) - content: none
