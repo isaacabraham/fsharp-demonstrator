@@ -2,7 +2,7 @@
 
 open Apps
 open AppInsightsHelpers
-open Helpers
+open Applications
 open Suave
 open Suave.Filters
 open Suave.Operators

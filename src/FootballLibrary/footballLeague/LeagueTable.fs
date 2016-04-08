@@ -2,7 +2,7 @@
 
 open System
 open FSharp.Data
-open Helpers
+open Applications
 
 type Results = HtmlProvider<"https://uk.sports.yahoo.com/football/premier-league/fixtures/?month=12&season=2015&year=2015">
 type Result = Results.Table2.Row

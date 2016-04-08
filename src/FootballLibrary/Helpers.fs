@@ -1,15 +1,24 @@
-﻿module FootballDemo.Helpers
+﻿module Applications
 
 open System
+open System.Diagnostics
 open System.Collections.Generic
 open System.Threading.Tasks
 
-let private cacheHit = Event<string * string>()
-let CacheHitEvent = cacheHit.Publish
+type AppEventType =
+    | CacheHit of name:string * key:string
+    | GenericEvent of string
 
-/// A Decorator - takes in a function, decorates it and returns back a new function
-/// with the same signature.
-type Decorator<'a> = (string -> Async<'a>) -> string -> Async<'a>
+
+let private appEvent = Event<AppEventType>()
+let internal publishEvent = appEvent.Trigger
+let applicationEvent = appEvent.Publish
+
+do
+    applicationEvent.Add(function
+        | CacheHit (cache,key) -> Trace.TraceInformation(sprintf "Cache Hit: %s, %s" cache key)
+        | GenericEvent event -> Trace.TraceInformation(sprintf "Generic Event: %s" event))
+        
 
 module Async =
     let map continuation expr =
@@ -33,7 +42,7 @@ let evictingMemoize ttl name func =
         match results.TryGetValue arg with
         | false, _ -> None
         | true, (cachedAt, value) when (now - cachedAt) < ttl ->
-            cacheHit.Trigger (name, (arg.ToString()))
+            publishEvent (CacheHit(name, (arg.ToString())))
             Some value
         | true, _ -> None
 
@@ -56,7 +65,7 @@ let memoize ttl name func =
         match results.TryGetValue arg with
         | false, _ -> None
         | true, (cachedAt, value) when (now - cachedAt) < ttl ->
-            cacheHit.Trigger (name, (arg.ToString()))
+            publishEvent (CacheHit(name, (arg.ToString())))
             Some value
         | true, _ -> None
 

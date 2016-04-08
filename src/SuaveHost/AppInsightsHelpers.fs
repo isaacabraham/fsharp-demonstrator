@@ -1,5 +1,6 @@
 ﻿module SuaveHost.AppInsightsHelpers
 
+open Applications
 open Microsoft.ApplicationInsights
 open Microsoft.ApplicationInsights.DataContracts
 open Microsoft.ApplicationInsights.DependencyCollector
@@ -55,9 +56,12 @@ do
     dependencyTracking.Initialize TelemetryConfiguration.Active
 
     // Start listening for cache events and send to AI
-    FootballDemo.Helpers.CacheHitEvent
-    |> Event.add(fun (cacheName, cacheKey) ->
-        let eventTelemetry = EventTelemetry(Name = "Cache Hit")
-        eventTelemetry.Properties.Add("Cache", cacheName)
-        eventTelemetry.Properties.Add("Cache Key", cacheKey)
-        telemetryClient.TrackEvent eventTelemetry)
+    applicationEvent
+    |> Event.add(function
+        | CacheHit (cacheName, cacheKey) ->
+            let eventTelemetry = EventTelemetry(Name = "Cache Hit")
+            eventTelemetry.Properties.Add("Cache", cacheName)
+            eventTelemetry.Properties.Add("Cache Key", cacheKey)
+            telemetryClient.TrackEvent eventTelemetry
+        | GenericEvent eventName -> telemetryClient.TrackEvent eventName)
+            

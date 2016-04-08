@@ -24,8 +24,10 @@ type TranslationResponse =
     { Translation : char
       MachineState : MachineState }
 
+open Applications
 open Enigma
 open System
+open System.Diagnostics
 
 let private failIfNone msg = function | Some x -> x | None -> failwith msg
 let private tryGetReflector = function
@@ -39,6 +41,7 @@ let private toRotorResponse rotor =
       KnockOns = rotor.KnockOns |> List.map(fun (KnockOn ko) -> ko) |> List.toArray }
 let private getRotor = tryGetRotor >> failIfNone "Invalid rotor. Must be between 1 and 8."
 let private getReflector = tryGetReflector >> failIfNone "Invalid Reflector. Must be 1 or 2."
+
 /// Generates an Enigma machine from a public request.
 let private toEnigma (request:TranslationRequest) =   
     let getPlugboard (plugboard:PlugboardMapping array) =
@@ -65,6 +68,9 @@ let private toEnigma (request:TranslationRequest) =
 let performTranslation (request:TranslationRequest) : TranslationResponse =
     let enigma = request |> toEnigma |> moveForwardBy request.CharacterIndex
     let translatedCharacter, newEnigma = Operations.translateChar enigma request.Character
+
+    publishEvent (GenericEvent "Translation")
+    Trace.TraceInformation(sprintf "Enigma translated %c to %c" request.Character translatedCharacter)
 
     { Translation = translatedCharacter
       MachineState =

@@ -2,7 +2,7 @@
 
 open System
 open FSharp.Data
-open Helpers
+open Applications
 
 type TeamPage = HtmlProvider<"https://uk.sports.yahoo.com/football/teams/newcastle-united/players/">
 
