@@ -20,6 +20,21 @@ let startTracing() =
     Trace.Listeners.Add (new ConsoleTraceListener()) |> ignore
     Trace.Listeners.Add (new ApplicationInsightsTraceListener()) |> ignore   
 
+    // Try to add Azure trace listeners if available.
+    let azureTraceListenerTypeNames =
+        [ "Drive"; "Table"; "Blob" ]
+        |> List.map (sprintf "Microsoft.WindowsAzure.WebSites.Diagnostics.Azure%sTraceListener, Microsoft.WindowsAzure.WebSites.Diagnostics, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35")
+
+    for traceListenerTypeName in azureTraceListenerTypeNames do
+        match Type.GetType(traceListenerTypeName, throwOnError = false) |> Option.ofObj with
+        | Some traceListenerType ->
+            try
+            let listener = Activator.CreateInstance traceListenerType :?> TraceListener
+            listener.Name <- traceListenerType.Name
+            Trace.Listeners.Add listener |> ignore
+            with _ -> ()
+        | None -> ()
+
 /// This method looks at both Application Settings and falls back to environment
 /// variable. This is how App Settings look like they are exposed to executables
 /// hosted in Azure App Service.
@@ -66,7 +81,5 @@ let optionallyWith handler response =
     
 let getConfig port =
   { defaultConfig with
-      bindings =
-        [ HttpBinding.mk HTTP IPAddress.Loopback port ]
-      listenTimeout = TimeSpan.FromMilliseconds 3000.
-  }
+      bindings = [ HttpBinding.mk HTTP IPAddress.Loopback port ]
+      listenTimeout = TimeSpan.FromMilliseconds 3000. }
