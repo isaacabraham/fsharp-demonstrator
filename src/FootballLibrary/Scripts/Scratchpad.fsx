@@ -10,6 +10,7 @@ open FootballDemo.TeamStats
 
 do fsi.AddPrinter(fun (printer:IFsiFormattable) -> "\n" + (printer.Format()))
 
+
 /// Get results for a single month
 getResultsForMonth FootballMonth.September
 |> Async.RunSynchronously
@@ -72,28 +73,8 @@ addM(5,11)
 
 
 // Event hook
-Helpers.CacheHitEvent
+Applications.applicationEvent
+|> Event.choose(function
+| Applications.CacheHit(key, value) -> Some (key,value)
+| _ -> None)
 |> Event.add(printfn "CACHE HIT: %A")
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
