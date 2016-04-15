@@ -38,7 +38,7 @@
         }
     },
     "variables": {
-        "webSiteName": "[concat('webSite', parameters('applicationName'))]",
+        "webSiteName": "[parameters('applicationName')]",
         "hostingPlanName": "[concat('hostingPlan', parameters('applicationName'))]",
         "appInsightsName": "[concat('appInsights', parameters('applicationName'))]"
     },
