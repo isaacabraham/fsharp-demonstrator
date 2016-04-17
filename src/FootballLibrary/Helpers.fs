@@ -21,11 +21,25 @@ do
         
 
 module Async =
-    let map continuation expr =
+    let bind continuation expr =
         async {
             let! values = expr
-            return continuation values
+            return! continuation values
         }
+
+    let map continuation = bind (continuation >> async.Return)
+
+module Option =
+    /// Binds an option function if the supplied option is None. 
+    let bindNone whenNone = function
+    | None -> whenNone()
+    | Some x -> Some x     
+
+    /// Maps an option function if the supplied option is None. 
+    let mapNone whenNone = bindNone (whenNone >> Option.Some)
+    
+    /// Wrapper around defaultArg operator
+    let withDefault defaultValue option = defaultArg option defaultValue
 
 /// Simple, non-thread-safe, permanent memoization
 let private basicMemoize func =

@@ -1,6 +1,8 @@
 ﻿[<AutoOpen>]
 module SuaveHost.Helpers
 
+open Applications
+open Microsoft.ApplicationInsights.TraceListener
 open Newtonsoft.Json
 open Suave
 open Suave.Logging
@@ -11,7 +13,6 @@ open System
 open System.Diagnostics
 open System.Net
 open System.Configuration
-open Microsoft.ApplicationInsights.TraceListener
 open System.Text
 
 /// Starts all trace listeners.
@@ -38,15 +39,12 @@ let startTracing() =
 /// This method looks at both Application Settings and falls back to environment
 /// variable. This is how App Settings look like they are exposed to executables
 /// hosted in Azure App Service.
+let private tryGetEnvironmentVariable = Environment.GetEnvironmentVariable >> Option.ofObj
 let getSetting (setting:string) =
     ConfigurationManager.AppSettings.[setting]
     |> Option.ofObj
-    |> function
-    | None ->
-        Trace.WriteLine (sprintf "Could not location %s in App Settings, trying Environment..." setting)
-        Environment.GetEnvironmentVariable setting |> Some
-    | Some x -> Some x
-    |> defaultArg <| ""
+    |> Option.bindNone(fun _ -> tryGetEnvironmentVariable setting)
+    |> Option.withDefault ""
 
 let logger =    
     { new Logger with
@@ -59,15 +57,11 @@ let logger =
             | _ -> Trace.TraceInformation logLine.message
             Trace.Flush() }
 
-    
-
 let toJson data = (data |> JsonConvert.SerializeObject |> OK) >=> setMimeType "application/json; charset=utf-8"
-let toJsonAsync op ctx =
-    async {
-        let! data = op
-        let data = data |> toJson
-        return! data ctx
-    }
+let toJsonAsync data ctx =
+    data
+    |> Async.map toJson
+    |> Async.bind(fun webPart -> webPart ctx)
 
 let mapJson<'a,'b> (f:'a -> 'b) =
   request(fun req ->

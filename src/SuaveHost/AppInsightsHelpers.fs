@@ -5,11 +5,11 @@ open Microsoft.ApplicationInsights
 open Microsoft.ApplicationInsights.DataContracts
 open Microsoft.ApplicationInsights.DependencyCollector
 open Microsoft.ApplicationInsights.Extensibility
+open Microsoft.ApplicationInsights.Extensibility.Implementation
 open Suave
 open System
-open System.Diagnostics
-open Microsoft.ApplicationInsights.Extensibility.Implementation
 open System.Configuration
+open System.Diagnostics
 
 let telemetryClient = TelemetryClient()
 

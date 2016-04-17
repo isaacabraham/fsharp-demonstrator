@@ -34,8 +34,6 @@ let getStats team (teamPage:TeamPage.TablesContainer) =
       AssistLeader = players |> List.sortByDescending(fun p -> p.Assists) |> List.map(fun p -> sprintf "%s (%d assists)" p.Name (int p.Assists)) |> List.head }
 
 let loadStatsForTeam (teamName:string) =
-    let teamName = teamName.ToLower().Replace(" ", "-")
-    async {
-        let! teamPage = getTeamPage teamName
-        return getStats teamName teamPage
-    }
+    let teamName = teamName.ToLower().Replace(" ", "-")    
+    getTeamPage teamName
+    |> Async.map (getStats teamName)
