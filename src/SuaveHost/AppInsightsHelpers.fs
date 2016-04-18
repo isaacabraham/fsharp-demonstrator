@@ -31,19 +31,19 @@ let withRequestTracking (webPart:WebPart) context =
                 // Map the properties of the result into App Insights
                 context
                 |> Option.iter(fun context ->
-                    operation.Telemetry.Url <- context.request.url
-                    operation.Telemetry.HttpMethod <- context.request.``method``.ToString()
                     operation.Telemetry.ResponseCode <- context.response.status.code.ToString()
-                    operation.Telemetry.Success <- Nullable (int context.response.status.code < 400))
-            
+                    operation.Telemetry.Success <- Nullable (int context.response.status.code < 400))            
                 return context
             with ex ->
                 // Hoppla! log the error and re-throw it
-                let telemetry = ExceptionTelemetry(ex, HandledAt = ExceptionHandledAt.Unhandled)
-                telemetryClient.TrackException telemetry
+                operation.Telemetry.ResponseCode <- "500"
+                operation.Telemetry.Success <- Nullable false            
+                ExceptionTelemetry(ex, HandledAt = ExceptionHandledAt.Unhandled) |> telemetryClient.TrackException
                 raise ex
                 return None
         finally
+            operation.Telemetry.Url <- context.request.url
+            operation.Telemetry.HttpMethod <- context.request.``method``.ToString()
             telemetryClient.StopOperation operation
     }
 
