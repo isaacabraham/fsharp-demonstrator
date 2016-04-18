@@ -14,6 +14,7 @@ open System.Diagnostics
 open System.Net
 open System.Configuration
 open System.Text
+open System.Reflection
 
 /// Starts all trace listeners.
 let startTracing() =
@@ -39,12 +40,53 @@ let startTracing() =
 /// This method looks at both Application Settings and falls back to environment
 /// variable. This is how App Settings look like they are exposed to executables
 /// hosted in Azure App Service.
-let private tryGetEnvironmentVariable = Environment.GetEnvironmentVariable >> Option.ofObj
-let getSetting (setting:string) =
-    ConfigurationManager.AppSettings.[setting]
-    |> Option.ofObj
-    |> Option.bindNone(fun _ -> tryGetEnvironmentVariable setting)
-    |> Option.withDefault ""
+module private AzureConfiguration =
+    let (|AppSetting|_|) (key:string,value:string) =
+        let token = "APPSETTING_"
+        if key.StartsWith token then Some (key.Substring token.Length, value)
+        else None
+    let (|ConnectionString|_|) (key:string, value:string) =
+        let token = "CONNSTR_"
+        if key.Contains token then
+            let connType = key.Substring(0, key.IndexOf token)
+            Some(connType, key.Substring (connType + token).Length, value)
+        else None
+    let (|DetailedConnectionString|_|) = function
+        | ConnectionString ("SQL", name, connection)
+        | ConnectionString ("SQLAZURE", name, connection) ->
+            Some (DetailedConnectionString(name, connection, Some "System.Data.SqlClient"))
+        | ConnectionString ("MYSQL", name, connection) ->
+            Some (DetailedConnectionString(name, connection, Some "System.Data.MySqlClient"))
+        | ConnectionString ("CUSTOM", name, connection) -> Some (DetailedConnectionString(name, connection, None))
+        | _ -> None
+
+    let getEnvironmentSettings() =
+        seq {
+            let enumerator = Environment.GetEnvironmentVariables().GetEnumerator()
+            while enumerator.MoveNext() do
+                yield (string enumerator.Key, string enumerator.Value) }
+
+    let applyToConfigurationManager settings =
+        for setting in settings do
+            match setting with
+            | AppSetting(key, value) -> ConfigurationManager.AppSettings.[key] <- value
+            | DetailedConnectionString (name, connection, provider) ->
+                let setting = ConfigurationManager.ConnectionStrings.[name]
+                
+                
+                typeof<ConfigurationElement>
+                    .GetField("_bReadOnly", BindingFlags.Instance ||| BindingFlags.NonPublic)
+                    .SetValue(setting, value = false)
+                
+                setting.ConnectionString <- connection                
+                provider |> Option.iter(fun provider -> setting.ProviderName <- provider)    
+            | _ -> ()
+
+/// Applies configuration settings from Azure into the Configuration Manager.
+let applyAzureEnvironmentToConfigurationManager =
+    AzureConfiguration.getEnvironmentSettings >> AzureConfiguration.applyToConfigurationManager
+
+let getSetting (key:string) = ConfigurationManager.AppSettings.[key]
 
 let logger =    
     { new Logger with
@@ -72,8 +114,3 @@ let optionallyWith handler response =
     match response with
     | Some response -> handler response
     | None -> RequestErrors.NOT_FOUND ""
-    
-let getConfig port =
-  { defaultConfig with
-      bindings = [ HttpBinding.mk HTTP IPAddress.Loopback port ]
-      listenTimeout = TimeSpan.FromMilliseconds 3000. }

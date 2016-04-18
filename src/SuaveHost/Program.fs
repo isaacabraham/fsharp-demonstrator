@@ -9,6 +9,7 @@ open Suave.Operators
 open System
 open System.Diagnostics
 open System.IO
+open System.Net
 
 let buildApp staticFilesPath : WebPart =
     let staticFileRoot = Path.GetFullPath(Environment.CurrentDirectory + staticFilesPath)
@@ -24,11 +25,15 @@ let buildApp staticFilesPath : WebPart =
 [<EntryPoint>]
 let main [| port; staticFilesLocation |] =
     startTracing()
+    applyAzureEnvironmentToConfigurationManager()
     
     Trace.TraceInformation (sprintf "Static Files Location: %s" staticFilesLocation)
     Trace.TraceInformation (sprintf "AppInsightsKey = %s" (Helpers.getSetting "AppInsightsKey"))
 
-    let config = getConfig (uint16 port)
+    let config =
+        { defaultConfig with
+            bindings = [ HttpBinding.mk HTTP IPAddress.Loopback (uint16 port) ]
+            listenTimeout = TimeSpan.FromMilliseconds 3000. }
     let app = buildApp staticFilesLocation
     startWebServer config app
     0
