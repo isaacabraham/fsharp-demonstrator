@@ -3,3 +3,6 @@ Newtonsoft.Json
 FSharp.Data
 Microsoft.ApplicationInsights.TraceListener
 Microsoft.ApplicationInsights.WindowsServer
+File:suave-appinsights.fs
+File:configuration.fs
+File:diagnostics.fs

@@ -7,21 +7,21 @@ NUGET
     FAKE (4.23.4)
     FSharp.Core (4.0.0.1)
     FSharp.Data (2.2.5)
-    Microsoft.ApplicationInsights (2.0) - content: none
-    Microsoft.ApplicationInsights.Agent.Intercept (1.2.1) - content: none
-    Microsoft.ApplicationInsights.DependencyCollector (2.0) - content: none
+    Microsoft.ApplicationInsights (2.0)
+    Microsoft.ApplicationInsights.Agent.Intercept (1.2.1)
+    Microsoft.ApplicationInsights.DependencyCollector (2.0)
       Microsoft.ApplicationInsights (2.0)
       Microsoft.ApplicationInsights.Agent.Intercept (>= 1.2.1)
-    Microsoft.ApplicationInsights.PerfCounterCollector (2.0) - content: none
+    Microsoft.ApplicationInsights.PerfCounterCollector (2.0)
       Microsoft.ApplicationInsights (2.0)
     Microsoft.ApplicationInsights.TraceListener (1.2.6) - content: none
       Microsoft.ApplicationInsights (>= 1.2.3)
-    Microsoft.ApplicationInsights.WindowsServer (2.0) - content: none
+    Microsoft.ApplicationInsights.WindowsServer (2.0)
       Microsoft.ApplicationInsights (2.0)
       Microsoft.ApplicationInsights.DependencyCollector (>= 2.0)
       Microsoft.ApplicationInsights.PerfCounterCollector (>= 2.0)
       Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel (2.0)
-    Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel (2.0) - content: none
+    Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel (2.0)
       Microsoft.ApplicationInsights (2.0)
     Microsoft.AspNet.WebApi.Client (5.2.3)
       Newtonsoft.Json (>= 6.0.4)
@@ -60,3 +60,10 @@ GITHUB
       Streams
     src/Api/Sudoku.fs (1407e6bb7ac27e97c424a547c0156c866227134a)
       Streams
+  remote: isaacabraham/azure-fsharp-helpers
+  specs:
+    src/appinsights/suave-appinsights.fs (1bfaacc3512274d4a547c2aa887aabaeee7a7d15)
+      Microsoft.ApplicationInsights.WindowsServer
+      Suave
+    src/configuration.fs (1bfaacc3512274d4a547c2aa887aabaeee7a7d15)
+    src/diagnostics.fs (1bfaacc3512274d4a547c2aa887aabaeee7a7d15)

@@ -1,12 +1,13 @@
 ﻿module SuaveHost.Main
 
 open Apps
-open AppInsightsHelpers
 open Helpers
 open Suave
+open Suave.Azure
 open Suave.Filters
 open Suave.Operators
 open System
+open System.Configuration
 open System.Diagnostics
 open System.IO
 open System.Net
@@ -20,12 +21,17 @@ let buildApp staticFilesPath : WebPart =
         basicApp staticFileRoot
         pageNotFound staticFileRoot
     ] >=> log logger logFormat
-    |> withRequestTracking
+    |> ApplicationInsights.withRequestTracking ApplicationInsights.buildApiOperationName
 
 [<EntryPoint>]
 let main [| port; staticFilesLocation |] =
-    startTracing()
-    applyAzureEnvironmentToConfigurationManager()
+    Configuration.Azure.applyAzureEnvironmentToConfigurationManager()
+    Tracing.Azure.addAzureAppServicesTraceListeners()
+    ApplicationInsights.startMonitoring
+        { AppInsightsKey = Helpers.getSetting "AppInsightsKey"
+          DeveloperMode = false
+          TrackDependencies = true }
+    startTracing()    
     
     Trace.TraceInformation (sprintf "Static Files Location: %s" staticFilesLocation)
     Trace.TraceInformation (sprintf "AppInsightsKey = %s" (Helpers.getSetting "AppInsightsKey"))

@@ -15,7 +15,6 @@ nuget Suave
 
 // Application Insights
 nuget Microsoft.ApplicationInsights.TraceListener content:none
-nuget Microsoft.ApplicationInsights.WindowsServer content:none
 
 // Football
 nuget Deedle
@@ -29,3 +28,8 @@ github isaacabraham/enigma src/Enigma/Logic.fs
 github isaacabraham/sudoku-solver src/Api/Contracts.fs
 github isaacabraham/sudoku-solver src/Api/DomainModel.fs
 github isaacabraham/sudoku-solver src/Api/Sudoku.fs
+
+// Azure + suave helpers
+github isaacabraham/azure-fsharp-helpers src/appinsights/suave-appinsights.fs
+github isaacabraham/azure-fsharp-helpers src/configuration.fs
+github isaacabraham/azure-fsharp-helpers src/diagnostics.fs

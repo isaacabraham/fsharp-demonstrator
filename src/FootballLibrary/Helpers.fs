@@ -9,7 +9,6 @@ type AppEventType =
     | CacheHit of name:string * key:string
     | GenericEvent of string
 
-
 let private appEvent = Event<AppEventType>()
 let internal publishEvent = appEvent.Trigger
 let applicationEvent = appEvent.Publish

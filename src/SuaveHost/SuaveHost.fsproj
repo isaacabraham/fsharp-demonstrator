@@ -65,9 +65,20 @@
   </Target>
   -->
   <ItemGroup>
+    <Compile Include="..\..\paket-files\isaacabraham\azure-fsharp-helpers\src\configuration.fs">
+      <Paket>True</Paket>
+      <Link>paket-files/configuration.fs</Link>
+    </Compile>
+    <Compile Include="..\..\paket-files\isaacabraham\azure-fsharp-helpers\src\diagnostics.fs">
+      <Paket>True</Paket>
+      <Link>paket-files/diagnostics.fs</Link>
+    </Compile>
+    <Compile Include="..\..\paket-files\isaacabraham\azure-fsharp-helpers\src\appinsights\suave-appinsights.fs">
+      <Paket>True</Paket>
+      <Link>paket-files/suave-appinsights.fs</Link>
+    </Compile>
     <Compile Include="AssemblyInfo.fs" />
     <Compile Include="Helpers.fs" />
-    <Compile Include="AppInsightsHelpers.fs" />
     <Compile Include="Apps.fs" />
     <Compile Include="Program.fs" />
     <None Include="Scripts\ScratchPadEngima.fsx" />
