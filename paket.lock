@@ -62,7 +62,7 @@ GITHUB
       Streams
   remote: isaacabraham/azure-fsharp-helpers
   specs:
-    src/appinsights/suave-appinsights.fs (1bfaacc3512274d4a547c2aa887aabaeee7a7d15)
+    src/appinsights/suave-appinsights.fs (a6583abe81698f6c91a3e262cc49df4114921b6f)
       Microsoft.ApplicationInsights.WindowsServer
       Suave
     src/configuration.fs (1bfaacc3512274d4a547c2aa887aabaeee7a7d15)
