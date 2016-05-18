@@ -15,6 +15,7 @@ nuget Suave
 
 // Application Insights
 nuget Microsoft.ApplicationInsights.TraceListener content:none
+nuget Microsoft.ApplicationInsights.WindowsServer > 2 prerelease content:none
 
 // Football
 nuget Deedle

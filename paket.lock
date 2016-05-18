@@ -4,26 +4,28 @@ NUGET
   remote: https://www.nuget.org/api/v2
   specs:
     Deedle (1.2.4)
-    FAKE (4.23.4)
+    FAKE (4.26)
     FSharp.Core (4.0.0.1)
     FSharp.Data (2.2.5)
-    Microsoft.ApplicationInsights (2.0)
+      Zlib.Portable (>= 1.10)
+    Microsoft.ApplicationInsights (2.1.0-beta4)
     Microsoft.ApplicationInsights.Agent.Intercept (1.2.1)
-    Microsoft.ApplicationInsights.DependencyCollector (2.0)
-      Microsoft.ApplicationInsights (2.0)
+    Microsoft.ApplicationInsights.DependencyCollector (2.1.0-beta4)
+      Microsoft.ApplicationInsights (2.1.0-beta4)
       Microsoft.ApplicationInsights.Agent.Intercept (>= 1.2.1)
-    Microsoft.ApplicationInsights.PerfCounterCollector (2.0)
-      Microsoft.ApplicationInsights (2.0)
-    Microsoft.ApplicationInsights.TraceListener (1.2.6) - content: none
-      Microsoft.ApplicationInsights (>= 1.2.3)
-    Microsoft.ApplicationInsights.WindowsServer (2.0)
-      Microsoft.ApplicationInsights (2.0)
-      Microsoft.ApplicationInsights.DependencyCollector (>= 2.0)
-      Microsoft.ApplicationInsights.PerfCounterCollector (>= 2.0)
-      Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel (2.0)
-    Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel (2.0)
-      Microsoft.ApplicationInsights (2.0)
+    Microsoft.ApplicationInsights.PerfCounterCollector (2.1.0-beta4)
+      Microsoft.ApplicationInsights (2.1.0-beta4)
+    Microsoft.ApplicationInsights.TraceListener (2.0) - content: none
+      Microsoft.ApplicationInsights (>= 2.0)
+    Microsoft.ApplicationInsights.WindowsServer (2.1.0-beta4)
+      Microsoft.ApplicationInsights (2.1.0-beta4)
+      Microsoft.ApplicationInsights.DependencyCollector (>= 2.1.0-beta4)
+      Microsoft.ApplicationInsights.PerfCounterCollector (>= 2.1.0-beta4)
+      Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel (2.1.0-beta4)
+    Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel (2.1.0-beta4)
+      Microsoft.ApplicationInsights (2.1.0-beta4)
     Microsoft.AspNet.WebApi.Client (5.2.3)
+      Microsoft.Net.Http (>= 2.2.22)
       Newtonsoft.Json (>= 6.0.4)
     Microsoft.AspNet.WebApi.Core (5.2.3)
       Microsoft.AspNet.WebApi.Client (>= 5.2.3)
@@ -31,6 +33,12 @@ NUGET
       Microsoft.AspNet.WebApi.Core (>= 5.2.3 < 5.3)
       Microsoft.Owin (>= 2.0.2)
       Owin (>= 1.0)
+    Microsoft.Bcl (1.1.10)
+      Microsoft.Bcl.Build (>= 1.0.14)
+    Microsoft.Bcl.Build (1.0.21) - import_targets: false
+    Microsoft.Net.Http (2.2.29)
+      Microsoft.Bcl (>= 1.1.10)
+      Microsoft.Bcl.Build (>= 1.0.14)
     Microsoft.Owin (3.0.1)
       Owin (>= 1.0)
     Microsoft.Owin.FileSystems (3.0.1)
@@ -47,6 +55,7 @@ NUGET
     Streams (0.4.1)
     Suave (1.1.2)
       FSharp.Core (>= 3.1.2.5)
+    Zlib.Portable (1.11)
 GITHUB
   remote: isaacabraham/enigma
   specs:
@@ -62,8 +71,8 @@ GITHUB
       Streams
   remote: isaacabraham/azure-fsharp-helpers
   specs:
-    src/appinsights/suave-appinsights.fs (a6583abe81698f6c91a3e262cc49df4114921b6f)
+    src/appinsights/suave-appinsights.fs (a19885acff94a0d62f4cdb67c9408aa3563667a7)
       Microsoft.ApplicationInsights.WindowsServer
       Suave
-    src/configuration.fs (1bfaacc3512274d4a547c2aa887aabaeee7a7d15)
-    src/diagnostics.fs (1bfaacc3512274d4a547c2aa887aabaeee7a7d15)
+    src/configuration.fs (a19885acff94a0d62f4cdb67c9408aa3563667a7)
+    src/diagnostics.fs (a19885acff94a0d62f4cdb67c9408aa3563667a7)

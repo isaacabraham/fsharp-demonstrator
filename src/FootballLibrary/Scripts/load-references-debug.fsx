@@ -11,3 +11,7 @@
 #r "../../../packages/Microsoft.AspNet.WebApi.Client/lib/net45/System.Net.Http.Formatting.dll"
 #r "../../../packages/Microsoft.AspNet.WebApi.Core/lib/net45/System.Web.Http.dll"
 #r "../../../packages/Streams/lib/net45/Streams.dll"
+#r "../../../packages/Microsoft.Net.Http/lib/net45/System.Net.Http.Extensions.dll"
+#r "../../../packages/Microsoft.Net.Http/lib/net45/System.Net.Http.Primitives.dll"
+#r "System.Net.Http.WebRequest.dll"
+#r "../../../packages/Zlib.Portable/lib/portable-net4+sl5+wp8+win8+wpa81+MonoTouch+MonoAndroid/Zlib.Portable.dll"
